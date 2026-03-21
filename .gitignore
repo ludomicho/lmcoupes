@@ -1,0 +1,10 @@
+node_modules/
+.env
+bookings.db
+sessions/
+*.log
+git-bash.exe
+git-cmd.exe
+usr/
+*.db-shm
+*.db-wal

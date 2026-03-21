@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "LM Coupes — Production (node)",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["server.js"],
+      "port": 3000
+    },
+    {
+      "name": "LM Coupes — Dev (nodemon)",
+      "runtimeExecutable": "cmd",
+      "runtimeArgs": ["/c", "cd", "\"C:\\Users\\ludov\\OneDrive\\Desktop\\Nouveau dossier\\lm.coupes\"", "&&", "node", "server.js"],
+      "port": 3000
+    }
+  ]
+}

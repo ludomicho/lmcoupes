@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LM Coupes — Barbershop de Luxe</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Raleway:wght@300;400;600;700&family=Bebas+Neue&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+
+  <!-- NAV -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-brand">
+      <span class="brand-lm">LM</span>
+      <span class="brand-coupes">COUPES</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#services" data-i18n="nav.services">Services</a></li>
+      <li><a href="#about" data-i18n="nav.about">À propos</a></li>
+      <li><a href="#gallery" data-i18n="nav.gallery">Galerie</a></li>
+      <li><a href="#booking" class="nav-cta" data-i18n="nav.book">Réserver</a></li>
+    </ul>
+    <a href="admin.html" class="lang-btn" style="text-decoration:none;font-size:0.7rem">Admin</a>
+    <button class="lang-btn" id="langBtn" onclick="switchLang()">EN</button>
+    <button class="hamburger" id="hamburger">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu">
+    <ul>
+      <li><a href="#services" onclick="closeMobileMenu()" data-i18n="nav.services">Services</a></li>
+      <li><a href="#about" onclick="closeMobileMenu()" data-i18n="nav.about">À propos</a></li>
+      <li><a href="#gallery" onclick="closeMobileMenu()" data-i18n="nav.gallery">Galerie</a></li>
+      <li><a href="#booking" onclick="closeMobileMenu()" data-i18n="nav.book">Réserver</a></li>
+    </ul>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-bg-lines"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow" data-i18n="hero.eyebrow">✦ Barbershop de Luxe ✦</div>
+      <h1 class="hero-title">
+        <span class="title-line" data-i18n="hero.line1">L'ART</span>
+        <span class="title-line accent" data-i18n="hero.line2">DU STYLE</span>
+        <span class="title-line" data-i18n="hero.line3">PARFAIT</span>
+      </h1>
+      <p class="hero-sub" data-i18n="hero.sub">Chaque coupe est une œuvre d'art. Chaque rasage, une expérience.</p>
+      <div class="hero-actions">
+        <a href="#booking" class="btn-primary" data-i18n="hero.cta">Prendre Rendez-Vous</a>
+        <a href="#services" class="btn-ghost" data-i18n="hero.ghost">Nos Services</a>
+      </div>
+    </div>
+    <div class="hero-scissors">
+      <svg viewBox="0 0 100 100" class="scissors-svg" style="overflow:visible">
+        <!-- Blade body -->
+        <path d="M8,5 L18,8 L75,48 L65,58 L5,15 Z" class="razor-blade"/>
+        <!-- Blade spine highlight -->
+        <path d="M8,5 L18,8 L75,48 L72,45 L15,6 Z" class="razor-spine"/>
+        <!-- Blade tip hook -->
+        <path d="M8,5 Q3,5 3,10 L5,15 L10,10 Z" class="razor-blade"/>
+        <!-- Handle/scales -->
+        <path d="M63,56 L78,46 L97,82 Q99,90 94,93 Q88,96 84,90 L55,62 Z" class="razor-handle"/>
+        <!-- Handle highlight -->
+        <path d="M63,56 L78,46 L81,49 L65,60 Z" class="razor-spine"/>
+        <!-- Pivot -->
+        <circle cx="66" cy="54" r="5" class="pivot"/>
+        <circle cx="66" cy="54" r="2" fill="rgba(255,255,255,0.4)"/>
+        <!-- Rivet 1 -->
+        <circle cx="76" cy="64" r="3.5" class="razor-rivet"/>
+        <circle cx="76" cy="64" r="1.5" fill="rgba(255,255,255,0.3)"/>
+        <!-- Rivet 2 -->
+        <circle cx="88" cy="80" r="3.5" class="razor-rivet"/>
+        <circle cx="88" cy="80" r="1.5" fill="rgba(255,255,255,0.3)"/>
+      </svg>
+    </div>
+    <div class="scroll-indicator">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- TICKER -->
+  <div class="ticker-wrap">
+    <div class="ticker">
+      <span>✂ COUPE 30$</span><span>✦ COUPE + BARBE 35$</span><span>✂ 4815 RUE SAINT-URBAIN</span><span>✦ MONTRÉAL</span><span>✂ @LM.COUPES</span><span>✦ +1 514-758-9422</span><span>✂ COUPE 30$</span><span>✦ COUPE + BARBE 35$</span><span>✂ 4815 RUE SAINT-URBAIN</span><span>✦ MONTRÉAL</span><span>✂ @LM.COUPES</span><span>✦ +1 514-758-9422</span>
+    </div>
+  </div>
+
+  <!-- SERVICES -->
+  <section class="services" id="services">
+    <div class="section-header">
+      <span class="section-tag" data-i18n="services.tag">02 — Services</span>
+      <h2 data-i18n-html="services.title">Ce Que Nous <span class="accent">Offrons</span></h2>
+    </div>
+    <div class="services-grid">
+      <div class="service-card" data-service="Coupe" data-price="30" data-duration="30">
+        <div class="service-icon">✂</div>
+        <div class="service-num">01</div>
+        <h3 data-i18n="s1.name">Coupe</h3>
+        <p data-i18n="s1.desc">Coupe précise aux ciseaux ou à la tondeuse, adaptée à votre morphologie et votre style.</p>
+        <div class="service-meta">
+          <span class="price">30$</span>
+          <span class="duration">30 min</span>
+        </div>
+        <button class="service-book" onclick="openBooking('Coupe', 30, 30)" data-i18n="s1.book">Réserver →</button>
+      </div>
+      <div class="service-card featured" data-service="Coupe + Barbe" data-price="35" data-duration="60">
+        <div class="service-badge" data-i18n="s2.badge">Populaire</div>
+        <div class="service-icon">⚡</div>
+        <div class="service-num">02</div>
+        <h3 data-i18n="s2.name">Coupe + Barbe</h3>
+        <p data-i18n="s2.desc">Le combo parfait : coupe soignée + barbe sculptée au rasoir traditionnel. Look complet garanti.</p>
+        <div class="service-meta">
+          <span class="price">35$</span>
+          <span class="duration">60 min</span>
+        </div>
+        <button class="service-book" onclick="openBooking('Coupe + Barbe', 35, 60)" data-i18n="s2.book">Réserver →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="about-visual">
+      <div class="about-img-frame">
+        <div class="about-img-inner">
+          <div class="barber-initials">LM</div>
+          <div class="barber-tagline">Since 2010</div>
+        </div>
+        <div class="about-decorative">
+          <span class="deco-line"></span>
+          <span class="deco-scissors">✂</span>
+          <span class="deco-line"></span>
+        </div>
+      </div>
+    </div>
+    <div class="about-text">
+      <span class="section-tag" data-i18n="about.tag">01 — À propos</span>
+      <h2 data-i18n-html="about.title">L'Artisan <span class="accent">Derrière</span> Chaque Coupe</h2>
+      <p class="about-lead" data-i18n="about.lead">Depuis plus de 14 ans, je perfectionne l'art du barbier avec passion et précision.</p>
+      <p data-i18n="about.body">Formé aux meilleures écoles de coiffure, j'ai développé une approche unique qui mêle techniques traditionnelles et tendances modernes. Chaque client qui entre dans mon salon repart avec une coupe sur-mesure qui révèle sa personnalité.</p>
+      <div class="about-stats">
+        <div class="stat">
+          <span class="stat-num">14+</span>
+          <span class="stat-label" data-i18n="about.stat1">Ans d'expérience</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">5K+</span>
+          <span class="stat-label" data-i18n="about.stat2">Clients satisfaits</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">100%</span>
+          <span class="stat-label" data-i18n="about.stat3">Passion</span>
+        </div>
+      </div>
+      <a href="#booking" class="btn-primary" data-i18n="about.cta">Prendre Rendez-Vous</a>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section class="gallery" id="gallery">
+    <div class="section-header">
+      <span class="section-tag" data-i18n="gallery.tag">03 — Galerie</span>
+      <h2 data-i18n-html="gallery.title">Notre <span class="accent">Travail</span></h2>
+    </div>
+    <div class="gallery-grid">
+      <div class="gallery-item g-tall" style="--bg: #5a3826">
+        <div class="gallery-label" data-i18n="g1.label">Coupe</div>
+        <div class="gallery-overlay">
+          <span class="gallery-icon">✂</span>
+        </div>
+      </div>
+      <div class="gallery-item" style="--bg: #8b5e42">
+        <div class="gallery-label" data-i18n="g2.label">Barbe Sculptée</div>
+        <div class="gallery-overlay">
+          <span class="gallery-icon">◉</span>
+        </div>
+      </div>
+      <div class="gallery-item" style="--bg: #a07050">
+        <div class="gallery-label" data-i18n="g3.label">Coupe + Barbe</div>
+        <div class="gallery-overlay">
+          <span class="gallery-icon">⚡</span>
+        </div>
+      </div>
+      <div class="gallery-item g-wide" style="--bg: #6e4535">
+        <div class="gallery-label" data-i18n="g4.label">Style Complet</div>
+        <div class="gallery-overlay">
+          <span class="gallery-icon">★</span>
+        </div>
+      </div>
+      <div class="gallery-item" style="--bg: #c4956a">
+        <div class="gallery-label" data-i18n="g5.label">Finition Rasoir</div>
+        <div class="gallery-overlay">
+          <span class="gallery-icon">◈</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="testimonials">
+    <div class="section-header">
+      <span class="section-tag" data-i18n="test.tag">04 — Témoignages</span>
+      <h2 data-i18n-html="test.title">Ce Qu'ils <span class="accent">Disent</span></h2>
+    </div>
+    <div class="testimonials-track" id="testimonialsTrack">
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p data-i18n="test1.quote">"La meilleure coupe que j'ai eue de ma vie. Technique impeccable, ambiance de luxe."</p>
+        <div class="testimonial-author">— Alexandre R.</div>
+      </div>
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p data-i18n="test2.quote">"Le combo coupe + barbe vaut chaque dollar. LM a transformé mon style complètement."</p>
+        <div class="testimonial-author">— Marcus T.</div>
+      </div>
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p data-i18n="test3.quote">"Réservation facile, accueil chaleureux, résultat parfait. Je reviens chaque mois."</p>
+        <div class="testimonial-author">— Karim B.</div>
+      </div>
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p data-i18n="test4.quote">"Le rasage traditionnel à la lame droite est une expérience unique. Incroyable."</p>
+        <div class="testimonial-author">— Julien M.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BOOKING SECTION (CALENDLY-LIKE) -->
+  <section class="booking-section" id="booking">
+    <div class="booking-header">
+      <span class="section-tag" data-i18n="book.tag">05 — Réservation</span>
+      <h2 data-i18n-html="book.title">Prenez Votre <span class="accent">Rendez-Vous</span></h2>
+      <p data-i18n="book.sub">Simple, rapide, sans tracas. Choisissez votre service, votre créneau et c'est réservé.</p>
+    </div>
+
+    <div class="booking-widget">
+      <!-- STEP INDICATOR -->
+      <div class="steps-bar">
+        <div class="step active" id="step-1">
+          <div class="step-circle">1</div>
+          <div class="step-label" data-i18n="step1.label">Service</div>
+        </div>
+        <div class="step-connector"></div>
+        <div class="step" id="step-2">
+          <div class="step-circle">2</div>
+          <div class="step-label" data-i18n="step2.label">Date</div>
+        </div>
+        <div class="step-connector"></div>
+        <div class="step" id="step-3">
+          <div class="step-circle">3</div>
+          <div class="step-label" data-i18n="step3.label">Heure</div>
+        </div>
+        <div class="step-connector"></div>
+        <div class="step" id="step-4">
+          <div class="step-circle">4</div>
+          <div class="step-label" data-i18n="step4.label">Infos</div>
+        </div>
+      </div>
+
+      <!-- STEP 1: SERVICE SELECTION -->
+      <div class="booking-step active" id="booking-step-1">
+        <h3 class="step-title" data-i18n="step1.title">Choisissez votre service</h3>
+        <div class="booking-services">
+          <div class="booking-service-item" onclick="selectService('Coupe', 30, 30)" data-id="Coupe">
+            <div class="bsi-icon">✂</div>
+            <div class="bsi-info">
+              <div class="bsi-name" data-i18n="bs1.name">Coupe</div>
+              <div class="bsi-meta" data-i18n="bs1.meta">30 min · 30$</div>
+            </div>
+            <div class="bsi-check">✓</div>
+          </div>
+          <div class="booking-service-item" onclick="selectService('Coupe + Barbe', 35, 60)" data-id="Coupe + Barbe">
+            <div class="bsi-icon">⚡</div>
+            <div class="bsi-info">
+              <div class="bsi-name" data-i18n="bs2.name">Coupe + Barbe</div>
+              <div class="bsi-meta" data-i18n="bs2.meta">60 min · 35$</div>
+            </div>
+            <div class="bsi-check">✓</div>
+          </div>
+        </div>
+        <div class="step-nav">
+          <button class="btn-next" onclick="goToStep(2)" id="nextStep1" disabled data-i18n="btn.next">Continuer →</button>
+        </div>
+      </div>
+
+      <!-- STEP 2: DATE SELECTION -->
+      <div class="booking-step" id="booking-step-2">
+        <h3 class="step-title" data-i18n="step2.title">Choisissez une date</h3>
+        <div class="calendar-container">
+          <div class="calendar-header">
+            <button class="cal-nav" onclick="changeMonth(-1)">‹</button>
+            <span class="cal-month-year" id="calMonthYear"></span>
+            <button class="cal-nav" onclick="changeMonth(1)">›</button>
+          </div>
+          <div class="calendar-days-header">
+            <span data-i18n="cal.sun">Dim</span><span data-i18n="cal.mon">Lun</span><span data-i18n="cal.tue">Mar</span><span data-i18n="cal.wed">Mer</span><span data-i18n="cal.thu">Jeu</span><span data-i18n="cal.fri">Ven</span><span data-i18n="cal.sat">Sam</span>
+          </div>
+          <div class="calendar-grid" id="calendarGrid"></div>
+        </div>
+        <div class="step-nav">
+          <button class="btn-back" onclick="goToStep(1)" data-i18n="btn.back">← Retour</button>
+          <button class="btn-next" onclick="goToStep(3)" id="nextStep2" disabled data-i18n="btn.next">Continuer →</button>
+        </div>
+      </div>
+
+      <!-- STEP 3: TIME SELECTION -->
+      <div class="booking-step" id="booking-step-3">
+        <h3 class="step-title" data-i18n="step3.title">Choisissez un horaire</h3>
+        <div class="time-section-label" data-i18n="time.am">Matin</div>
+        <div class="time-slots" id="timeSlotsAM"></div>
+        <div class="time-section-label" data-i18n="time.pm">Après-midi</div>
+        <div class="time-slots" id="timeSlotsPM"></div>
+        <div class="step-nav">
+          <button class="btn-back" onclick="goToStep(2)" data-i18n="btn.back">← Retour</button>
+          <button class="btn-next" onclick="goToStep(4)" id="nextStep3" disabled data-i18n="btn.next">Continuer →</button>
+        </div>
+      </div>
+
+      <!-- STEP 4: CONTACT INFO -->
+      <div class="booking-step" id="booking-step-4">
+        <h3 class="step-title" data-i18n="step4.title">Vos informations</h3>
+        <div class="booking-summary" id="bookingSummary"></div>
+        <form class="booking-form" onsubmit="submitBooking(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label data-i18n="form.firstname">Prénom *</label>
+              <input type="text" id="firstName" data-i18n-ph="form.fn.ph" placeholder="Jean" required />
+            </div>
+            <div class="form-group">
+              <label data-i18n="form.lastname">Nom *</label>
+              <input type="text" id="lastName" data-i18n-ph="form.ln.ph" placeholder="Dupont" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label data-i18n="form.email">Email *</label>
+            <input type="email" id="email" data-i18n-ph="form.email.ph" placeholder="jean@exemple.com" required />
+          </div>
+          <div class="form-group">
+            <label data-i18n="form.phone">Téléphone *</label>
+            <input type="tel" id="phone" placeholder="+1 (514) 000-0000" required />
+          </div>
+          <div class="form-group">
+            <label data-i18n="form.note">Note (optionnel)</label>
+            <textarea id="note" data-i18n-ph="form.note.ph" placeholder="Précisions sur votre coupe, allergies, préférences..." rows="3"></textarea>
+          </div>
+          <div class="step-nav">
+            <button type="button" class="btn-back" onclick="goToStep(3)" data-i18n="btn.back">← Retour</button>
+            <button type="submit" class="btn-primary" data-i18n="btn.confirm">Confirmer la Réservation ✓</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- CONFIRMATION -->
+      <div class="booking-step" id="booking-confirmation">
+        <div class="confirmation-content">
+          <div class="confirmation-icon">✂</div>
+          <h3 data-i18n="confirm.title">Réservation Confirmée!</h3>
+          <p data-i18n="confirm.msg1">Vous recevrez un rappel automatique 24h avant votre rendez-vous.</p>
+          <p class="confirmation-reminder-note" data-i18n="confirm.msg2">📅 Ajoutez l'événement à votre calendrier pour ne pas oublier.</p>
+          <div class="confirmation-details" id="confirmationDetails"></div>
+          <div class="confirmation-actions" id="confirmationActions"></div>
+          <button class="btn-primary" onclick="resetBooking()" data-i18n="confirm.reset">Faire une autre réservation</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="brand-logo">
+          <span class="brand-lm">LM</span>
+          <span class="brand-coupes">COUPES</span>
+        </div>
+        <p data-i18n="footer.tagline">L'art du barbier. La précision de l'artisan.</p>
+        <div class="footer-socials">
+          <a href="https://www.instagram.com/lm.coupes" target="_blank" class="social-link">@lm.coupes</a>
+        </div>
+      </div>
+      <div class="footer-links">
+        <h4 data-i18n="footer.nav">Navigation</h4>
+        <ul>
+          <li><a href="#services" data-i18n="nav.services">Services</a></li>
+          <li><a href="#about" data-i18n="nav.about">À propos</a></li>
+          <li><a href="#gallery" data-i18n="nav.gallery">Galerie</a></li>
+          <li><a href="#booking" data-i18n="nav.book">Réserver</a></li>
+        </ul>
+      </div>
+      <div class="footer-contact">
+        <h4 data-i18n="footer.contact">Contact</h4>
+        <p>📍 4815 rue Saint-Urbain, sous-sol<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;H2T 2W1, Montréal</p>
+        <p>📞 <a href="tel:+15147589422" style="color:#888;text-decoration:none">+1 514-758-9422</a></p>
+        <p>📸 <a href="https://www.instagram.com/lm.coupes" target="_blank" style="color:#888;text-decoration:none">@lm.coupes</a></p>
+        <p>🕐 <span data-i18n="footer.hours">Lun–Sam: 9h–19h</span></p>
+        <p style="font-size:0.78rem;margin-top:10px;color:#555 !important" data-i18n-html="footer.dm">Si je ne suis pas disponible,<br>DM-moi sur Instagram!</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p data-i18n="footer.bottom">© 2026 LM Coupes — Tous droits réservés</p>
+      <p data-i18n="footer.made">Fait avec ✂ et passion</p>
+    </div>
+  </footer>
+
+  <!-- FLOATING BOOK BUTTON -->
+  <a href="#booking" class="floating-cta" id="floatingCta">
+    <span class="fcta-icon">✂</span>
+    <span class="fcta-text" data-i18n="fcta">Réserver</span>
+  </a>
+
+  <!-- Hidden Netlify form — lets Netlify capture booking submissions & email them -->
+  <form name="booking" data-netlify="true" hidden netlify-honeypot="bot-field">
+    <input name="bot-field" />
+    <input name="service" />
+    <input name="price" />
+    <input name="duration" />
+    <input name="date" />
+    <input name="time" />
+    <input name="firstName" />
+    <input name="lastName" />
+    <input name="email" type="email" />
+    <input name="phone" />
+    <textarea name="note"></textarea>
+  </form>
+
+  <script src="script.js"></script>
+</body>
+</html>
