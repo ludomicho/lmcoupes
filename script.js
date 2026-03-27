@@ -16,46 +16,50 @@ const i18n = {
     'nav.about': 'À propos',
     'nav.gallery': 'Galerie',
     'nav.book': 'Réserver',
-    'hero.eyebrow': '✦ Barbershop de Luxe ✦',
-    'hero.line1': "L'ART",
-    'hero.line2': 'DU STYLE',
-    'hero.line3': 'PARFAIT',
-    'hero.sub': "Chaque coupe est une œuvre d'art. Chaque rasage, une expérience.",
+    'hero.eyebrow': '✦ Barbershop ✦',
+    'hero.line1': 'LM',
+    'hero.line2': '.COUPES',
+    'hero.line3': '',
+    'hero.sub': "Plateau Mont-Royal : cheveux coupés, barbes taillées, produits à vendre.",
     'hero.cta': 'Prendre Rendez-Vous',
     'hero.ghost': 'Nos Services',
-    'services.tag': '02 — Services',
-    'services.title': 'Ce Que Nous <span class="accent">Offrons</span>',
+    'services.tag': '02 Services',
+    'services.title': 'Voici Les Services <span class="accent">Disponibles</span>',
     's1.name': 'Coupe',
-    's1.desc': 'Coupe précise aux ciseaux ou à la tondeuse, adaptée à votre morphologie et votre style.',
+    's1.desc': 'Une coupe nette qui va te faire sentir comme si tu venais d\'être promu, même si t\'as pas de boss.',
     's1.book': 'Réserver →',
     's2.name': 'Coupe + Barbe',
-    's2.desc': 'Le combo parfait : coupe soignée + barbe sculptée au rasoir traditionnel. Look complet garanti.',
-    's2.badge': 'Populaire',
+    's2.desc': 'Le duo gagnant. Parce qu\'une bonne coupe sans barbe taillée, c\'est comme un Netflix sans abonnement.',
     's2.book': 'Réserver →',
-    'about.tag': '01 — À propos',
-    'about.title': 'L\'Artisan <span class="accent">Derrière</span> Chaque Coupe',
-    'about.lead': "Depuis plus de 14 ans, je perfectionne l'art du barbier avec passion et précision.",
-    'about.body': "Formé aux meilleures écoles de coiffure, j'ai développé une approche unique qui mêle techniques traditionnelles et tendances modernes. Chaque client qui entre dans mon salon repart avec une coupe sur-mesure qui révèle sa personnalité.",
+    's3.name': 'Barbe seulement',
+    's3.desc': 'Pour ceux qui ont arrêté de se couper les cheveux mais qui ont quand même des standards. Respect.',
+    's3.book': 'Réserver →',
+    'about.tag': '01 À propos',
+    'about.title': 'Le Gars <span class="accent">Derrière</span> Chaque Coupe',
+    'about.lead': "4 ans de pratique, zéro coupe ratée (selon moi).",
+    'about.body': "J'ai bossé 2 ans dans un barbershop et je maîtrise tous les types de cheveux : frisés, raides, dégradés, afro, tout le kit. Si t'as des cheveux, j'men occupe. Si t'en as plus, on peut jaser quand même.",
     'about.stat1': "Ans d'expérience",
     'about.stat2': 'Clients satisfaits',
     'about.stat3': 'Passion',
     'about.cta': 'Prendre Rendez-Vous',
-    'gallery.tag': '03 — Galerie',
+    'gallery.tag': '03 Galerie',
     'gallery.title': 'Notre <span class="accent">Travail</span>',
     'g1.label': 'Coupe',
     'g2.label': 'Barbe Sculptée',
     'g3.label': 'Coupe + Barbe',
     'g4.label': 'Style Complet',
     'g5.label': 'Finition Rasoir',
-    'test.tag': '04 — Témoignages',
+    'test.tag': '04 Témoignages',
     'test.title': 'Ce Qu\'ils <span class="accent">Disent</span>',
-    'test1.quote': '"La meilleure coupe que j\'ai eue de ma vie. Technique impeccable, ambiance de luxe."',
-    'test2.quote': '"Le combo coupe + barbe vaut chaque dollar. LM a transformé mon style complètement."',
-    'test3.quote': '"Réservation facile, accueil chaleureux, résultat parfait. Je reviens chaque mois."',
-    'test4.quote': '"Le rasage traditionnel à la lame droite est une expérience unique. Incroyable."',
-    'book.tag': '05 — Réservation',
+    'test1.quote': '"Honnêtement je m\'attendais à bien, mais là c\'était trop bien. Mon ex m\'a retexté le soir même."',
+    'test2.quote': '"Le combo coupe + barbe m\'a transformé. J\'avais l\'air d\'un homme adulte responsable pour la première fois."',
+    'test3.quote': '"Réservation simple, ambiance chill, résultat au top. Je reviens chaque mois même si j\'en ai pas besoin."',
+    'test4.quote': '"Le rasage à la lame droite m\'a fait flipper pendant 10 secondes. Puis j\'ai compris le génie."',
+    'book.tag': '05 Réservation',
     'book.title': 'Prenez Votre <span class="accent">Rendez-Vous</span>',
-    'book.sub': "Simple, rapide, sans tracas. Choisissez votre service, votre créneau et c'est réservé.",
+    'book.sub': "Simple, rapide, indolore. Choisissez votre service préféré et on s'occupe du reste.",
+    'book.pick': 'Quelle prestation aujourd\'hui ?',
+    'book.change': 'Changer de service',
     'step1.label': 'Service',
     'step2.label': 'Date',
     'step3.label': 'Heure',
@@ -88,15 +92,15 @@ const i18n = {
     'confirm.msg1': 'Vous recevrez un rappel automatique 24h avant votre rendez-vous.',
     'confirm.msg2': "📅 Ajoutez l'événement à votre calendrier pour ne pas oublier.",
     'confirm.reset': 'Faire une autre réservation',
-    'footer.tagline': "L'art du barbier. La précision de l'artisan.",
+    'footer.tagline': "On coupe, on taille, on vend des produits. C'est tout, mais c'est fait bien.",
     'footer.nav': 'Navigation',
     'footer.contact': 'Contact',
     'footer.hours': 'Lun–Sam: 9h–19h',
-    'footer.dm': 'Si je ne suis pas disponible,<br>DM-moi sur Instagram!',
-    'footer.bottom': '© 2026 LM Coupes — Tous droits réservés',
-    'footer.made': 'Fait avec ✂ et passion',
+    'footer.dm': 'Pas dispo? DM sur Instagram,<br>on va s\'arranger.',
+    'footer.bottom': '© 2026 LM Coupes · Tous droits réservés',
+    'footer.made': 'Fait avec ✂ et beaucoup de café',
     'fcta': 'Réserver',
-    'ticker': '<span>✂ COUPE 30$</span><span>✦ COUPE + BARBE 35$</span><span>✂ 4815 RUE SAINT-URBAIN</span><span>✦ MONTRÉAL</span><span>✂ @LM.COUPES</span><span>✦ +1 514-758-9422</span><span>✂ COUPE 30$</span><span>✦ COUPE + BARBE 35$</span><span>✂ 4815 RUE SAINT-URBAIN</span><span>✦ MONTRÉAL</span><span>✂ @LM.COUPES</span><span>✦ +1 514-758-9422</span>',
+    'ticker': '<span>COUPE 30$</span><span>✦ COUPE + BARBE 35$</span><span>BARBE 20$</span><span>✦ PLATEAU MONT-ROYAL</span><span>@LM.COUPES</span><span>✦ +1 514-758-9422</span><span>COUPE 30$</span><span>✦ COUPE + BARBE 35$</span><span>BARBE 20$</span><span>✦ PLATEAU MONT-ROYAL</span><span>@LM.COUPES</span><span>✦ +1 514-758-9422</span>',
     'months': ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
     'locale': 'fr-CA',
     'summary.title': 'Récapitulatif de votre réservation',
@@ -105,53 +109,57 @@ const i18n = {
     'cd.address': 'Adresse', 'cd.email': 'Email', 'cd.note': 'Note',
     'gcal.btn': '📅 Ajouter à Google Calendar',
     'ics.btn': '⬇ Télécharger .ics (rappel 24h)',
-    'service.names': { 'Coupe': 'Coupe', 'Coupe + Barbe': 'Coupe + Barbe' },
+    'service.names': { 'Coupe': 'Coupe', 'Coupe + Barbe': 'Coupe + Barbe', 'Barbe': 'Barbe' },
   },
   en: {
     'nav.services': 'Services',
     'nav.about': 'About',
     'nav.gallery': 'Gallery',
     'nav.book': 'Book',
-    'hero.eyebrow': '✦ Luxury Barbershop ✦',
-    'hero.line1': 'THE ART',
-    'hero.line2': 'OF PERFECT',
-    'hero.line3': 'STYLE',
-    'hero.sub': 'Every cut is a work of art. Every shave, an experience.',
+    'hero.eyebrow': '✦ Barbershop ✦',
+    'hero.line1': 'LM',
+    'hero.line2': '.COUPES',
+    'hero.line3': '',
+    'hero.sub': "Plateau Mont-Royal: haircuts, beard trims, and products for sale.",
     'hero.cta': 'Book an Appointment',
     'hero.ghost': 'Our Services',
-    'services.tag': '02 — Services',
-    'services.title': 'What We <span class="accent">Offer</span>',
+    'services.tag': '02 Services',
+    'services.title': 'Here Are The <span class="accent">Available Services</span>',
     's1.name': 'Haircut',
-    's1.desc': 'Precision cut with scissors or clippers, tailored to your face shape and personal style.',
+    's1.desc': 'A clean cut that\'ll make you feel like you just got promoted, even if you don\'t have a boss.',
     's1.book': 'Book →',
     's2.name': 'Haircut + Beard',
-    's2.desc': 'The perfect combo: sharp haircut + sculpted beard with traditional straight razor. Complete look guaranteed.',
-    's2.badge': 'Popular',
+    's2.desc': 'The power duo. Because a great cut without a shaped beard is like a tuxedo with flip flops.',
     's2.book': 'Book →',
-    'about.tag': '01 — About',
-    'about.title': 'The Craftsman <span class="accent">Behind</span> Every Cut',
-    'about.lead': 'For over 14 years, I have been perfecting the art of barbering with passion and precision.',
-    'about.body': 'Trained at top barbering schools, I developed a unique approach blending traditional techniques with modern trends. Every client who walks into my shop leaves with a custom cut that reveals their personality.',
+    's3.name': 'Beard only',
+    's3.desc': 'For guys who stopped cutting their hair but still have standards. Respect.',
+    's3.book': 'Book →',
+    'about.tag': '01 About',
+    'about.title': 'The Guy <span class="accent">Behind</span> Every Cut',
+    'about.lead': "4 years of practice, zero bad cuts (according to me).",
+    'about.body': "Worked 2 years in a barbershop, I handle all hair types: curly, straight, fades, afro, the whole deal. If you have hair, I got you. If you don't, we can still chat.",
     'about.stat1': 'Years of experience',
     'about.stat2': 'Happy clients',
     'about.stat3': 'Passion',
     'about.cta': 'Book an Appointment',
-    'gallery.tag': '03 — Gallery',
+    'gallery.tag': '03 Gallery',
     'gallery.title': 'Our <span class="accent">Work</span>',
     'g1.label': 'Haircut',
     'g2.label': 'Sculpted Beard',
     'g3.label': 'Haircut + Beard',
     'g4.label': 'Full Style',
     'g5.label': 'Razor Finish',
-    'test.tag': '04 — Testimonials',
+    'test.tag': '04 Testimonials',
     'test.title': 'What They <span class="accent">Say</span>',
-    'test1.quote': '"Best haircut I\'ve had in my life. Flawless technique, luxury atmosphere."',
-    'test2.quote': '"The haircut + beard combo is worth every dollar. LM completely transformed my style."',
-    'test3.quote': '"Easy booking, warm welcome, perfect result. I come back every month."',
-    'test4.quote': '"The traditional straight razor shave is a one-of-a-kind experience. Incredible."',
-    'book.tag': '05 — Booking',
+    'test1.quote': '"Expected good, got great. My ex texted me that same evening. Make of that what you will."',
+    'test2.quote': '"The cut + beard combo made me look like a responsible adult for the first time in my life."',
+    'test3.quote': '"Easy booking, chill vibe, perfect result. I come back monthly even when I don\'t need to."',
+    'test4.quote': '"The straight razor shave freaked me out for exactly 10 seconds. Then I understood the genius."',
+    'book.tag': '05 Booking',
     'book.title': 'Book Your <span class="accent">Appointment</span>',
-    'book.sub': "Simple, fast, hassle-free. Pick your service, your time slot, and you're booked.",
+    'book.sub': "Simple, fast, painless. Pick your service and we'll handle the rest.",
+    'book.pick': 'What are we doing today?',
+    'book.change': 'Change service',
     'step1.label': 'Service',
     'step2.label': 'Date',
     'step3.label': 'Time',
@@ -184,15 +192,15 @@ const i18n = {
     'confirm.msg1': 'You will receive an automatic reminder 24h before your appointment.',
     'confirm.msg2': "📅 Add the event to your calendar so you don't forget.",
     'confirm.reset': 'Book another appointment',
-    'footer.tagline': 'The art of barbering. The precision of a craftsman.',
+    'footer.tagline': "We cut, we shape, we sell products. That's it, but we do it right.",
     'footer.nav': 'Navigation',
     'footer.contact': 'Contact',
     'footer.hours': 'Mon–Sat: 9am–7pm',
-    'footer.dm': "If I'm not available,<br>DM me on Instagram!",
-    'footer.bottom': '© 2026 LM Coupes — All rights reserved',
-    'footer.made': 'Made with ✂ and passion',
+    'footer.dm': "Not available? DM on Instagram,<br>we'll figure something out.",
+    'footer.bottom': '© 2026 LM Coupes · All rights reserved',
+    'footer.made': 'Made with ✂ and too much coffee',
     'fcta': 'Book',
-    'ticker': '<span>✂ HAIRCUT $30</span><span>✦ HAIRCUT + BEARD $35</span><span>✂ 4815 ST-URBAIN ST</span><span>✦ MONTREAL</span><span>✂ @LM.COUPES</span><span>✦ +1 514-758-9422</span><span>✂ HAIRCUT $30</span><span>✦ HAIRCUT + BEARD $35</span><span>✂ 4815 ST-URBAIN ST</span><span>✦ MONTREAL</span><span>✂ @LM.COUPES</span><span>✦ +1 514-758-9422</span>',
+    'ticker': '<span>HAIRCUT $30</span><span>✦ HAIRCUT + BEARD $35</span><span>BEARD $20</span><span>✦ PLATEAU MONT-ROYAL</span><span>@LM.COUPES</span><span>✦ +1 514-758-9422</span><span>HAIRCUT $30</span><span>✦ HAIRCUT + BEARD $35</span><span>BEARD $20</span><span>✦ PLATEAU MONT-ROYAL</span><span>@LM.COUPES</span><span>✦ +1 514-758-9422</span>',
     'months': ['January','February','March','April','May','June','July','August','September','October','November','December'],
     'locale': 'en-CA',
     'summary.title': 'Booking summary',
@@ -201,7 +209,7 @@ const i18n = {
     'cd.address': 'Address', 'cd.email': 'Email', 'cd.note': 'Note',
     'gcal.btn': '📅 Add to Google Calendar',
     'ics.btn': '⬇ Download .ics (24h reminder)',
-    'service.names': { 'Coupe': 'Haircut', 'Coupe + Barbe': 'Haircut + Beard' },
+    'service.names': { 'Coupe': 'Haircut', 'Coupe + Barbe': 'Haircut + Beard', 'Barbe': 'Beard' },
   }
 };
 
@@ -244,8 +252,17 @@ function switchLang() {
   currentLang = currentLang === 'fr' ? 'en' : 'fr';
   applyTranslations(currentLang);
   if (state.calYear !== null) renderCalendar();
-  // Re-init testimonials with updated text
   initTestimonials();
+  // Update service name in the selected bar
+  if (state.selectedService) {
+    const nameEl = document.getElementById('bkSelectedName');
+    if (nameEl) nameEl.textContent = SERVICE_DISPLAY[state.selectedService]?.[currentLang] || state.selectedService;
+  }
+  // If GCal iframe is open, reload it with the new language
+  const iframe = document.getElementById('gcalIframe');
+  if (iframe && iframe.src && iframe.src !== window.location.href) {
+    iframe.src = `${GCAL_URL}?gv=true&hl=${currentLang}`;
+  }
 }
 
 // ============================================================
@@ -375,28 +392,306 @@ function initReveal() {
 // ============================================================
 
 // Open from service cards on main page
+// Called from service cards on the page — scrolls to booking and pre-picks the service
 function openBooking(serviceName, price, duration) {
-  // Scroll to booking section
   document.getElementById('booking').scrollIntoView({ behavior: 'smooth' });
-  // Pre-select service after scroll
-  setTimeout(() => {
-    selectService(serviceName, price, duration);
-    goToStep(1);
-  }, 600);
+  setTimeout(() => pickBookingService(serviceName, price, duration), 600);
 }
 
-// Select service in step 1
-function selectService(name, price, duration) {
-  state.selectedService = name;
-  state.selectedPrice = price;
+// ─── Service config ──────────────────────────────────────────────────────────
+const SERVICE_DISPLAY = {
+  'Coupe':        { fr: 'Coupe',           en: 'Haircut' },
+  'Coupe + Barbe':{ fr: 'Coupe + Barbe',   en: 'Haircut + Beard' },
+  'Barbe':        { fr: 'Barbe seulement',  en: 'Beard only' },
+};
+const SERVICE_META = {
+  'Coupe':        '30 min · 30$',
+  'Coupe + Barbe':'60 min · 35$',
+  'Barbe':        '30 min · 20$',
+};
+
+// Google Calendar Appointment Scheduling URL (30-min services)
+const GCAL_URL = 'https://calendar.google.com/calendar/appointments/schedules/AcZssZ1p-RS_2vx3m-uyvHa5h5xMTfGJMKY_gPMlpTqRV0QfWwC0uXq3legsvn08OKJsC4fGeMxx-Ovj';
+
+// ─── Booking sub-state ───────────────────────────────────────────────────────
+const bk = { year: null, month: null, selectedDate: null, selectedTime: null };
+
+// ─── Entry point: user picked a service ──────────────────────────────────────
+function pickBookingService(name, price, duration) {
+  state.selectedService  = name;
+  state.selectedPrice    = price;
   state.selectedDuration = duration;
 
-  // Update UI
-  document.querySelectorAll('.booking-service-item').forEach(item => {
-    item.classList.toggle('selected', item.dataset.id === name);
+  document.getElementById('bkSelectedName').textContent = SERVICE_DISPLAY[name]?.[currentLang] || name;
+  document.getElementById('bkSelectedMeta').textContent = SERVICE_META[name] || '';
+
+  document.getElementById('bkStep1').hidden = true;
+  document.getElementById('bkStep2').removeAttribute('hidden');
+
+  // All services → Google Calendar iframe
+  document.getElementById('gcalIframe').src = `${GCAL_URL}?gv=true&hl=${currentLang}`;
+
+  // Show the double-booking warning only for Coupe + Barbe
+  const warn = document.getElementById('bkDoubleWarning');
+  if (warn) warn.hidden = (name !== 'Coupe + Barbe');
+
+  setTimeout(() => document.getElementById('bkStep2').scrollIntoView({ behavior: 'smooth', block: 'start' }), 80);
+}
+
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+function bkDateStr(dateObj) {
+  return `${dateObj.getFullYear()}-${String(dateObj.getMonth()+1).padStart(2,'0')}-${String(dateObj.getDate()).padStart(2,'0')}`;
+}
+function bkDateFromStr(str) {
+  const [y, m, d] = str.split('-').map(Number);
+  return new Date(y, m-1, d);
+}
+function bkAddDays(dateStr, n) {
+  const d = bkDateFromStr(dateStr);
+  d.setDate(d.getDate() + n);
+  return bkDateStr(d);
+}
+
+// ─── Mini calendar (left panel) ───────────────────────────────────────────────
+function bkRenderMiniCal() {
+  const { year, month } = bk;
+  const container = document.getElementById('bkMiniCal');
+  if (!container) return;
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const monthNames = i18n[currentLang].months;
+  const closedDays = state.closedDays || [0];
+  const dayLabels = currentLang === 'fr'
+    ? ['D','L','M','M','J','V','S']
+    : ['S','M','T','W','T','F','S'];
+  const firstDay    = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+  let html = `
+    <div class="gcal-mini-header">
+      <button class="gcal-mini-nav" onclick="bkChangeMonth(-1)">&#8249;</button>
+      <span class="gcal-mini-title">${monthNames[month]} ${year}</span>
+      <button class="gcal-mini-nav" onclick="bkChangeMonth(1)">&#8250;</button>
+    </div>
+    <div class="gcal-mini-grid">
+  `;
+  dayLabels.forEach(d => { html += `<div class="gcal-mini-dh">${d}</div>`; });
+  for (let i = 0; i < firstDay; i++) html += '<div class="gcal-mini-cell"></div>';
+
+  for (let d = 1; d <= daysInMonth; d++) {
+    const date    = new Date(year, month, d);
+    const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const isPast   = date < today;
+    const isClosed = closedDays.includes(date.getDay());
+    const isSelected = bk.selectedDate === dateStr;
+    const isToday    = date.getTime() === today.getTime();
+
+    if (isPast || isClosed) {
+      html += `<div class="gcal-mini-cell gcal-mini-disabled">${d}</div>`;
+    } else {
+      let cls = 'gcal-mini-cell gcal-mini-day';
+      if (isToday)    cls += ' gcal-mini-today';
+      if (isSelected) cls += ' gcal-mini-selected';
+      html += `<div class="${cls}" onclick="bkSelectDate('${dateStr}')">${d}</div>`;
+    }
+  }
+  html += '</div>';
+  container.innerHTML = html;
+}
+
+function bkChangeMonth(dir) {
+  bk.month += dir;
+  if (bk.month > 11) { bk.month = 0; bk.year++; }
+  if (bk.month < 0)  { bk.month = 11; bk.year--; }
+  bkRenderMiniCal();
+}
+
+// ─── Day columns (right panel) — 3 days at a time ────────────────────────────
+const bkSlotCache = {}; // dateStr → slots array (or null if loading)
+
+async function bkRenderDayCols() {
+  const cols  = document.getElementById('bkDayCols');
+  const today = bkDateFromStr(bkDateStr(new Date()));
+  const days  = [bk.viewStart, bkAddDays(bk.viewStart, 1), bkAddDays(bk.viewStart, 2)];
+  const closedDays = state.closedDays || [0];
+  const dayNamesFr = ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
+  const dayNamesEn = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+
+  // Build skeleton immediately
+  cols.innerHTML = '';
+  const colEls = days.map(dateStr => {
+    const dateObj = bkDateFromStr(dateStr);
+    const [, mo, d] = dateStr.split('-').map(Number);
+    const dow = currentLang === 'fr' ? dayNamesFr[dateObj.getDay()] : dayNamesEn[dateObj.getDay()];
+    const isSelected = bk.selectedDate === dateStr;
+
+    const col = document.createElement('div');
+    col.className = 'gcal-day-col';
+    col.innerHTML = `
+      <div class="gcal-day-header ${isSelected ? 'gcal-day-header--active' : ''}">
+        <span class="gcal-dow">${dow.toUpperCase()}</span>
+        <span class="gcal-dnum ${isSelected ? 'gcal-dnum--selected' : ''}">${d}</span>
+      </div>
+      <div class="gcal-day-slots" id="bkCol-${dateStr}">
+        <span class="gcal-slot-dash">—</span>
+      </div>
+    `;
+    cols.appendChild(col);
+    return { dateStr, col };
   });
 
-  document.getElementById('nextStep1').disabled = false;
+  // Fetch slots for each day in parallel
+  await Promise.all(colEls.map(async ({ dateStr }) => {
+    const slotEl = document.getElementById(`bkCol-${dateStr}`);
+    if (!slotEl) return;
+
+    const dateObj  = bkDateFromStr(dateStr);
+    const isClosed = closedDays.includes(dateObj.getDay());
+    const isPast   = dateObj < bkDateFromStr(bkDateStr(new Date()));
+
+    if (isClosed || isPast) { slotEl.innerHTML = '<span class="gcal-slot-dash">—</span>'; return; }
+
+    // Check cache
+    if (bkSlotCache[dateStr] !== undefined) {
+      bkFillColSlots(slotEl, dateStr, bkSlotCache[dateStr]);
+      return;
+    }
+
+    slotEl.innerHTML = '<span class="gcal-slot-loading">...</span>';
+    try {
+      const params = new URLSearchParams({ date: dateStr, duration: state.selectedDuration || 30, service: state.selectedService });
+      const res  = await fetch(`/api/slots?${params}`);
+      const data = await res.json();
+      const slots = (data.available && data.slots.length) ? data.slots : [];
+      bkSlotCache[dateStr] = slots;
+      bkFillColSlots(slotEl, dateStr, slots);
+    } catch {
+      slotEl.innerHTML = '<span class="gcal-slot-dash">—</span>';
+    }
+  }));
+}
+
+function bkFillColSlots(container, dateStr, slots) {
+  if (!slots.length) { container.innerHTML = '<span class="gcal-slot-dash">—</span>'; return; }
+  container.innerHTML = '';
+  slots.forEach(time => {
+    const [h, m] = time.split(':').map(Number);
+    const ampm   = h >= 12 ? 'pm' : 'am';
+    const h12    = h > 12 ? h - 12 : (h === 0 ? 12 : h);
+    const label  = `${h12}:${String(m).padStart(2,'0')}${ampm}`;
+    const btn = document.createElement('button');
+    btn.className = 'gcal-slot-btn';
+    btn.textContent = label;
+    btn.onclick = () => bkSelectSlot(time, dateStr);
+    container.appendChild(btn);
+  });
+}
+
+function bkShiftDays(n) {
+  bk.viewStart = bkAddDays(bk.viewStart, n);
+  bkRenderDayCols();
+}
+
+// ─── Date clicked on mini-cal → jump day cols to that date ───────────────────
+function bkSelectDate(dateStr) {
+  bk.selectedDate = dateStr;
+  bk.viewStart    = dateStr;
+  bkRenderMiniCal();
+  bkRenderDayCols();
+}
+
+// ─── Slot selected → show form ────────────────────────────────────────────────
+function bkSelectSlot(time, dateStr) {
+  bk.selectedDate = dateStr;
+  bk.selectedTime = time;
+
+  const [y, mo, d] = dateStr.split('-').map(Number);
+  const monthNames  = i18n[currentLang].months;
+  const serviceName = SERVICE_DISPLAY[state.selectedService]?.[currentLang] || state.selectedService;
+  document.getElementById('bkFormSummary').textContent =
+    `${serviceName} · ${d} ${monthNames[mo-1]} ${y} · ${time} → ${bkAddMins(time, 60)}`;
+
+  document.getElementById('bkPickerView').hidden = true;
+  document.getElementById('bkPanelForm').hidden  = false;
+  setTimeout(() => document.getElementById('bkPanelForm').scrollIntoView({ behavior: 'smooth', block: 'start' }), 60);
+}
+
+function bkGoBackToSlots() {
+  document.getElementById('bkPickerView').hidden = false;
+  document.getElementById('bkPanelForm').hidden  = true;
+  // Refresh the column that was selected to re-show slots
+  bkRenderDayCols();
+}
+
+// ─── Form submission ──────────────────────────────────────────────────────────
+async function bkSubmit(event) {
+  event.preventDefault();
+  const btn  = document.getElementById('bkSubmitBtn');
+  const errEl = document.getElementById('bkFormError');
+  errEl.hidden = true;
+  btn.disabled = true;
+  const origText = btn.textContent;
+  btn.textContent = '...';
+
+  const body = {
+    service:   state.selectedService,
+    price:     state.selectedPrice,
+    duration:  state.selectedDuration,
+    date:      bk.selectedDate,
+    time:      bk.selectedTime,
+    firstName: document.getElementById('bkFirstName').value.trim(),
+    lastName:  document.getElementById('bkLastName').value.trim(),
+    email:     document.getElementById('bkEmail').value.trim(),
+    phone:     document.getElementById('bkPhone').value.trim(),
+    note:      document.getElementById('bkNote').value.trim(),
+  };
+
+  try {
+    const res  = await fetch('/api/book', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(body) });
+    const data = await res.json();
+
+    if (!res.ok) {
+      errEl.textContent = data.error || 'Erreur lors de la réservation.';
+      errEl.hidden = false;
+      btn.disabled = false;
+      btn.textContent = origText;
+      return;
+    }
+
+    // Confirmation
+    const [y, mo, d] = bk.selectedDate.split('-').map(Number);
+    const monthNames  = i18n[currentLang].months;
+    const serviceName = SERVICE_DISPLAY[state.selectedService]?.[currentLang] || state.selectedService;
+    const endNote     = state.selectedService === 'Coupe + Barbe'
+      ? ` (${bk.selectedTime}–${bkAddMins(bk.selectedTime, 60)})`
+      : ` à ${bk.selectedTime}`;
+    document.getElementById('bkConfirmDetail').textContent = `${serviceName} · ${d} ${monthNames[mo-1]} ${y}${endNote}`;
+    document.getElementById('bkPanelForm').hidden    = true;
+    document.getElementById('bkPanelConfirm').hidden = false;
+    document.getElementById('bkPanelConfirm').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  } catch {
+    errEl.textContent = 'Erreur de connexion au serveur.';
+    errEl.hidden = false;
+    btn.disabled = false;
+    btn.textContent = origText;
+  }
+}
+
+function bkAddMins(timeStr, mins) {
+  const [h, m] = timeStr.split(':').map(Number);
+  const total = h * 60 + m + mins;
+  return `${String(Math.floor(total/60)).padStart(2,'0')}:${String(total%60).padStart(2,'0')}`;
+}
+
+function backToServicePick() {
+  // Unload the iframe so it doesn't keep a stale session
+  const iframe = document.getElementById('gcalIframe');
+  if (iframe) iframe.src = '';
+  document.getElementById('bkStep2').hidden = true;
+  const step1 = document.getElementById('bkStep1');
+  step1.removeAttribute('hidden');
+  step1.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 // ============================================================
@@ -982,71 +1277,6 @@ function initParallax() {
 }
 
 // ============================================================
-// SCISSORS CURSOR + HAIR EFFECT
-// ============================================================
-function initScissorsCursor() {
-  const cur = document.getElementById('scissorsCursor');
-  if (!cur) return;
-
-  cur.innerHTML = `
-    <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" width="48" height="48">
-      <g class="sc-a">
-        <line x1="24" y1="24" x2="42" y2="6"  stroke="#1a1917" stroke-width="3.5" stroke-linecap="round"/>
-        <line x1="24" y1="24" x2="6"  y2="42" stroke="#3a3530" stroke-width="2.5" stroke-linecap="round"/>
-        <circle cx="6" cy="42" r="5.5" fill="none" stroke="#1a1917" stroke-width="2"/>
-      </g>
-      <g class="sc-b">
-        <line x1="24" y1="24" x2="42" y2="42" stroke="#1a1917" stroke-width="3.5" stroke-linecap="round"/>
-        <line x1="24" y1="24" x2="6"  y2="6"  stroke="#3a3530" stroke-width="2.5" stroke-linecap="round"/>
-        <circle cx="6" cy="6" r="5.5" fill="none" stroke="#1a1917" stroke-width="2"/>
-      </g>
-      <circle cx="24" cy="24" r="3.5" fill="#c0392b"/>
-    </svg>`;
-
-  // Follow mouse — tip is at top-right (42,6), offset so tip is at pointer
-  document.addEventListener('mousemove', e => {
-    cur.style.left = (e.clientX - 38) + 'px';
-    cur.style.top  = (e.clientY - 6)  + 'px';
-  });
-
-  // Click: cutting animation + spawn hair
-  document.addEventListener('mousedown', e => {
-    cur.classList.remove('sc-cutting'); // reset so re-trigger works
-    void cur.offsetWidth;               // force reflow
-    cur.classList.add('sc-cutting');
-    spawnHair(e.clientX, e.clientY);
-    setTimeout(() => cur.classList.remove('sc-cutting'), 240);
-  });
-}
-
-function spawnHair(x, y) {
-  const count = 4 + Math.floor(Math.random() * 3);
-  const hairAnims = ['hairFall0','hairFall1','hairFall2'];
-  for (let i = 0; i < count; i++) {
-    setTimeout(() => {
-      const s = document.createElement('div');
-      const angle  = -25 + Math.random() * 50;
-      const len    = 10 + Math.random() * 14;
-      const anim   = hairAnims[i % 3];
-      const dur    = 550 + Math.random() * 250;
-      s.style.cssText = `
-        position:fixed;
-        left:${x + (Math.random() - 0.5) * 14}px;
-        top:${y}px;
-        width:1.5px;height:${len}px;
-        background:linear-gradient(180deg,#2d1a0e,#7a5c3b);
-        border-radius:1px;pointer-events:none;z-index:99998;
-        transform-origin:50% 0;
-        transform:rotate(${angle}deg);
-        animation:${anim} ${dur}ms ease-in forwards;
-      `;
-      document.body.appendChild(s);
-      setTimeout(() => s.remove(), dur + 60);
-    }, i * 35);
-  }
-}
-
-// ============================================================
 // NUMBER COUNTER ANIMATION
 // ============================================================
 function animateCounters() {
@@ -1098,4 +1328,31 @@ document.addEventListener('DOMContentLoaded', () => {
   const now = new Date();
   state.calYear = now.getFullYear();
   state.calMonth = now.getMonth();
+
+  // Gallery hover videos — freeze on first frame before hover
+  document.querySelectorAll('.gallery-item').forEach(item => {
+    const video = item.querySelector('.gallery-video');
+    if (!video) return;
+
+    // Force first frame to show as soon as metadata is ready
+    const showFirstFrame = () => {
+      video.currentTime = 0.01;
+    };
+    if (video.readyState >= 1) {
+      showFirstFrame();
+    } else {
+      video.addEventListener('loadedmetadata', showFirstFrame, { once: true });
+    }
+
+    item.addEventListener('mouseenter', () => {
+      video.currentTime = 0;
+      video.play().catch(() => {});
+    });
+    item.addEventListener('mouseleave', () => {
+      video.pause();
+      video.currentTime = 0.01; // freeze back on first frame
+    });
+  });
+
 });
+

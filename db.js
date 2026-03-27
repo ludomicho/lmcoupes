@@ -49,6 +49,7 @@ function initSchema() {
       date   TEXT    NOT NULL UNIQUE,
       reason TEXT    DEFAULT ''
     );
+
   `);
 
   // Seed availability Mon–Sat open, Sunday closed

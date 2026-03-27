@@ -7,6 +7,7 @@ const session        = require('express-session');
 const FileStore      = require('session-file-store')(session);
 const cors           = require('cors');
 const path           = require('path');
+const crypto         = require('crypto');
 const { DateTime }   = require('luxon');
 
 const { getDb }               = require('./db');
@@ -85,15 +86,7 @@ function isSlotBusyInGCal(dateStr, timeStr, durationMin, busyPeriods) {
   });
 }
 
-// ============================================================
-// AUTH MIDDLEWARE
-// ============================================================
-function requireAuth(req, res, next) {
-  if (req.session && req.session.adminAuthenticated) {
-    return next();
-  }
-  return res.status(401).json({ error: 'Non autorisé. Veuillez vous connecter.' });
-}
+
 
 // ============================================================
 // PUBLIC ROUTES
@@ -116,17 +109,22 @@ app.get('/api/available-days', (req, res) => {
 });
 
 /**
- * GET /api/slots?date=YYYY-MM-DD&duration=30
+ * GET /api/slots?date=YYYY-MM-DD&duration=30&service=Coupe+Barbe
  * Returns available time slots for a given date and service duration.
+ * For "Coupe + Barbe" (doubleSlot=true): only returns slots where BOTH
+ * the slot AND the immediately following 30-min slot are free.
  */
 app.get('/api/slots', async (req, res) => {
-  const { date, duration } = req.query;
+  const { date, duration, service } = req.query;
 
   if (!date || !duration) {
     return res.status(400).json({ error: 'Paramètres manquants: date et duration sont requis.' });
   }
 
-  const durationMin = parseInt(duration, 10);
+  const durationMin  = parseInt(duration, 10);
+  const doubleSlot   = (service === 'Coupe + Barbe'); // needs two consecutive 30-min slots
+  const slotDuration = doubleSlot ? 30 : durationMin; // always generate 30-min grid
+
   if (isNaN(durationMin) || durationMin < 1) {
     return res.status(400).json({ error: 'Duration invalide.' });
   }
@@ -137,56 +135,69 @@ app.get('/api/slots', async (req, res) => {
     // 1. Check blocked dates
     const blocked = db.prepare('SELECT reason FROM blocked_dates WHERE date = ?').get(date);
     if (blocked) {
-      return res.json({
-        available: false,
-        slots: [],
-        reason: blocked.reason || 'Journée bloquée.',
-      });
+      return res.json({ available: false, slots: [], reason: blocked.reason || 'Journée bloquée.' });
     }
 
     // 2. Check availability by day_of_week
-    const dayOfWeek = new Date(date + 'T12:00:00').getDay(); // use noon to avoid DST edge cases
+    const dayOfWeek = new Date(date + 'T12:00:00').getDay();
     const avail = db.prepare('SELECT * FROM availability WHERE day_of_week = ?').get(dayOfWeek);
-
     if (!avail || !avail.is_available) {
-      return res.json({
-        available: false,
-        slots: [],
-        reason: 'Fermé ce jour.',
-      });
+      return res.json({ available: false, slots: [], reason: 'Fermé ce jour.' });
     }
 
-    // 3. Generate all possible slots
-    let slots = generateSlots(avail.start_time, avail.end_time, durationMin);
+    // 3. Generate all 30-min slots for the day
+    let allSlots = generateSlots(avail.start_time, avail.end_time, 30);
 
-    // 4. Remove slots already booked in DB
-    // A slot is booked if there's a booking that starts at that time on that date
-    // Also block slots that would overlap existing bookings
-    const existingBookings = db.prepare(
-      'SELECT time, duration FROM bookings WHERE date = ?'
-    ).all(date);
-
-    slots = slots.filter(slotTime => {
+    // 4. Build a Set of busy slot times (from DB bookings)
+    const existingBookings = db.prepare('SELECT time, duration FROM bookings WHERE date = ?').all(date);
+    const isSlotBusyInDb = (slotTime) => {
       const slotStart = timeToMinutes(slotTime);
-      const slotEnd   = slotStart + durationMin;
-
-      return !existingBookings.some(booking => {
-        const bStart = timeToMinutes(booking.time);
-        const bEnd   = bStart + booking.duration;
-        // Overlap check
+      const slotEnd   = slotStart + 30;
+      return existingBookings.some(b => {
+        const bStart = timeToMinutes(b.time);
+        const bEnd   = bStart + b.duration;
         return slotStart < bEnd && slotEnd > bStart;
       });
-    });
+    };
 
-    // 5. Optionally remove slots overlapping GCal freebusy periods
+    // 5. Optionally fetch GCal busy periods
+    let busyPeriods = [];
     try {
-      const busyPeriods = await getFreeBusySlots(date);
-      if (busyPeriods.length > 0) {
-        slots = slots.filter(slotTime => !isSlotBusyInGCal(date, slotTime, durationMin, busyPeriods));
-      }
+      busyPeriods = await getFreeBusySlots(date);
     } catch (gcalErr) {
-      // GCal not configured or unavailable — continue without it
       console.log('[/api/slots] GCal freebusy skipped:', gcalErr.message);
+    }
+
+    const isSlotFree = (slotTime) => {
+      if (isSlotBusyInDb(slotTime)) return false;
+      if (busyPeriods.length > 0 && isSlotBusyInGCal(date, slotTime, 30, busyPeriods)) return false;
+      return true;
+    };
+
+    // 6. Filter slots based on service requirements
+    let slots;
+    if (doubleSlot) {
+      // For Coupe + Barbe: only keep slots where THIS slot AND the next are both free
+      slots = allSlots.filter((slotTime, i) => {
+        const nextSlot = allSlots[i + 1];
+        if (!nextSlot) return false; // no next slot exists (last slot of day)
+        // Next slot must be exactly 30 min later (consecutive, no gap)
+        const thisMin = timeToMinutes(slotTime);
+        const nextMin = timeToMinutes(nextSlot);
+        if (nextMin !== thisMin + 30) return false;
+        return isSlotFree(slotTime) && isSlotFree(nextSlot);
+      });
+    } else {
+      // Single slot: just check that the slot itself is free
+      slots = allSlots.filter(slotTime => {
+        const slotStart = timeToMinutes(slotTime);
+        const slotEnd   = slotStart + durationMin;
+        // For slots longer than 30 min, check all 30-min windows within
+        for (let t = slotStart; t < slotEnd; t += 30) {
+          if (!isSlotFree(minutesToTime(t))) return false;
+        }
+        return true;
+      });
     }
 
     return res.json({ available: true, slots });
@@ -265,22 +276,55 @@ app.post('/api/book', async (req, res) => {
       return res.status(409).json({ error: 'Ce créneau vient d\'être réservé. Veuillez en choisir un autre.' });
     }
 
-    // Insert booking
+    // For Coupe + Barbe: duration is always 30 min per slot, book two consecutive slots
+    const doubleSlot   = (service === 'Coupe + Barbe');
+    const slotDuration = doubleSlot ? 30 : durationMin;
+
+    // If double-slot: verify the next 30-min slot is also still free (race-condition check)
+    if (doubleSlot) {
+      const nextMins  = timeToMinutes(time) + 30;
+      const nextTime  = minutesToTime(nextMins);
+      const nextStart = nextMins;
+      const nextEnd   = nextMins + 30;
+      const nextOverlap = existingBookings.some(b => {
+        const bStart = timeToMinutes(b.time);
+        const bEnd   = bStart + b.duration;
+        return nextStart < bEnd && nextEnd > bStart;
+      });
+      if (nextOverlap) {
+        return res.status(409).json({ error: 'Le créneau suivant (nécessaire pour Coupe + Barbe) vient d\'être réservé. Veuillez choisir un autre horaire.' });
+      }
+    }
+
     const insert = db.prepare(`
       INSERT INTO bookings (service, price, duration, date, time, first_name, last_name, email, phone, note)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `);
-    const result   = insert.run(service, parsedPrice, durationMin, date, time, firstName, lastName, email, phone, note || '');
+
+    // Insert first (or only) slot
+    const result    = insert.run(service, parsedPrice, slotDuration, date, time, firstName, lastName, email, phone, note || '');
     const bookingId = result.lastInsertRowid;
 
-    // Best-effort: create Google Calendar event
+    // Insert second slot for Coupe + Barbe
+    let bookingId2 = null;
+    if (doubleSlot) {
+      const time2 = minutesToTime(timeToMinutes(time) + 30);
+      const result2 = insert.run(service, parsedPrice, slotDuration, date, time2, firstName, lastName, email, phone, note || '');
+      bookingId2 = result2.lastInsertRowid;
+    }
+
+    // Best-effort: create Google Calendar event(s)
     let googleEventId = null;
     try {
       googleEventId = await createCalendarEvent({
-        service, date, time, duration: durationMin,
+        service, date, time,
+        duration: doubleSlot ? 60 : durationMin, // single 60-min event in GCal for Coupe + Barbe
         firstName, lastName, email, phone, note: note || '',
       });
       db.prepare('UPDATE bookings SET google_event_id = ? WHERE id = ?').run(googleEventId, bookingId);
+      if (bookingId2) {
+        db.prepare('UPDATE bookings SET google_event_id = ? WHERE id = ?').run(googleEventId, bookingId2);
+      }
     } catch (gcalErr) {
       console.log('[/api/book] GCal event creation skipped:', gcalErr.message);
     }
@@ -302,183 +346,6 @@ app.post('/api/book', async (req, res) => {
   }
 });
 
-// ============================================================
-// ADMIN ROUTES
-// ============================================================
-
-/** POST /api/admin/login */
-app.post('/api/admin/login', (req, res) => {
-  const { password } = req.body;
-  const adminPassword = process.env.ADMIN_PASSWORD;
-
-  if (!adminPassword) {
-    return res.status(500).json({ error: 'ADMIN_PASSWORD non configuré sur le serveur.' });
-  }
-
-  if (password === adminPassword) {
-    req.session.adminAuthenticated = true;
-    return res.json({ success: true });
-  }
-
-  return res.status(401).json({ error: 'Mot de passe incorrect.' });
-});
-
-/** POST /api/admin/logout */
-app.post('/api/admin/logout', (req, res) => {
-  req.session.destroy(() => {
-    res.json({ success: true });
-  });
-});
-
-/** GET /api/admin/check */
-app.get('/api/admin/check', (req, res) => {
-  res.json({ authenticated: !!(req.session && req.session.adminAuthenticated) });
-});
-
-/** GET /api/admin/bookings[?date=YYYY-MM-DD] */
-app.get('/api/admin/bookings', requireAuth, (req, res) => {
-  try {
-    const db = getDb();
-    const { date } = req.query;
-
-    let rows;
-    if (date) {
-      rows = db.prepare(
-        'SELECT * FROM bookings WHERE date = ? ORDER BY time ASC'
-      ).all(date);
-    } else {
-      rows = db.prepare(
-        'SELECT * FROM bookings ORDER BY date DESC, time ASC LIMIT 200'
-      ).all();
-    }
-
-    res.json({ bookings: rows });
-  } catch (err) {
-    console.error('[/api/admin/bookings]', err);
-    res.status(500).json({ error: 'Erreur serveur.' });
-  }
-});
-
-/** DELETE /api/admin/bookings/:id */
-app.delete('/api/admin/bookings/:id', requireAuth, async (req, res) => {
-  const id = parseInt(req.params.id, 10);
-  if (isNaN(id)) return res.status(400).json({ error: 'ID invalide.' });
-
-  try {
-    const db = getDb();
-    const booking = db.prepare('SELECT * FROM bookings WHERE id = ?').get(id);
-    if (!booking) return res.status(404).json({ error: 'Réservation introuvable.' });
-
-    // Delete GCal event (best-effort)
-    if (booking.google_event_id) {
-      try {
-        await deleteCalendarEvent(booking.google_event_id);
-      } catch (gcalErr) {
-        console.log('[DELETE booking] GCal delete skipped:', gcalErr.message);
-      }
-    }
-
-    db.prepare('DELETE FROM bookings WHERE id = ?').run(id);
-    res.json({ success: true });
-  } catch (err) {
-    console.error('[DELETE /api/admin/bookings/:id]', err);
-    res.status(500).json({ error: 'Erreur serveur.' });
-  }
-});
-
-/** GET /api/admin/availability */
-app.get('/api/admin/availability', requireAuth, (req, res) => {
-  try {
-    const db = getDb();
-    const availability = db.prepare('SELECT * FROM availability ORDER BY day_of_week ASC').all();
-    const blockedDates = db.prepare('SELECT * FROM blocked_dates ORDER BY date ASC').all();
-    res.json({ availability, blockedDates });
-  } catch (err) {
-    console.error('[/api/admin/availability]', err);
-    res.status(500).json({ error: 'Erreur serveur.' });
-  }
-});
-
-/** PUT /api/admin/availability */
-app.put('/api/admin/availability', requireAuth, (req, res) => {
-  const { availability } = req.body;
-  if (!Array.isArray(availability)) {
-    return res.status(400).json({ error: 'Format invalide.' });
-  }
-
-  try {
-    const db = getDb();
-    const update = db.prepare(
-      'UPDATE availability SET is_available = ?, start_time = ?, end_time = ? WHERE day_of_week = ?'
-    );
-
-    const updateAll = db.transaction(() => {
-      for (const row of availability) {
-        const { day_of_week, is_available, start_time, end_time } = row;
-        if (day_of_week === undefined) continue;
-        update.run(
-          is_available ? 1 : 0,
-          start_time || '09:00',
-          end_time   || '19:00',
-          day_of_week
-        );
-      }
-    });
-
-    updateAll();
-    res.json({ success: true });
-  } catch (err) {
-    console.error('[PUT /api/admin/availability]', err);
-    res.status(500).json({ error: 'Erreur serveur.' });
-  }
-});
-
-/** POST /api/admin/blocked-dates */
-app.post('/api/admin/blocked-dates', requireAuth, (req, res) => {
-  const { date, reason } = req.body;
-  if (!date) return res.status(400).json({ error: 'Date requise.' });
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
-    return res.status(400).json({ error: 'Format de date invalide (YYYY-MM-DD).' });
-  }
-
-  try {
-    const db = getDb();
-    db.prepare(
-      'INSERT OR REPLACE INTO blocked_dates (date, reason) VALUES (?, ?)'
-    ).run(date, reason || '');
-    res.json({ success: true });
-  } catch (err) {
-    console.error('[POST /api/admin/blocked-dates]', err);
-    res.status(500).json({ error: 'Erreur serveur.' });
-  }
-});
-
-/** DELETE /api/admin/blocked-dates/:date */
-app.delete('/api/admin/blocked-dates/:date', requireAuth, (req, res) => {
-  const { date } = req.params;
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
-    return res.status(400).json({ error: 'Format de date invalide.' });
-  }
-
-  try {
-    const db = getDb();
-    db.prepare('DELETE FROM blocked_dates WHERE date = ?').run(date);
-    res.json({ success: true });
-  } catch (err) {
-    console.error('[DELETE /api/admin/blocked-dates/:date]', err);
-    res.status(500).json({ error: 'Erreur serveur.' });
-  }
-});
-
-/** GET /api/admin/test-gcal */
-app.get('/api/admin/test-gcal', requireAuth, async (req, res) => {
-  try {
-    const result = await testConnection();
-    res.json({ success: true, ...result });
-  } catch (err) {
-    res.status(400).json({ success: false, error: err.message });
-  }
-});
 
 // ============================================================
 // GOOGLE OAUTH SETUP ROUTES
@@ -585,33 +452,30 @@ app.get('/oauth/callback', async (req, res) => {
 
 // Serve only the safe public assets (CSS, JS, images, fonts)
 // — never exposes .env, server.js, db.js, etc.
-const PUBLIC_FILES = ['styles.css', 'script.js', 'admin.css', 'admin.js'];
+const PUBLIC_FILES = ['styles.css', 'script.js'];
 PUBLIC_FILES.forEach(file => {
   app.get(`/${file}`, (req, res) => {
     res.sendFile(path.join(__dirname, file));
   });
 });
 
-// Serve image/font directories if they exist
+// Serve image/font/video directories if they exist
 app.use('/images',  express.static(path.join(__dirname, 'images')));
 app.use('/fonts',   express.static(path.join(__dirname, 'fonts')));
 app.use('/assets',  express.static(path.join(__dirname, 'assets')));
+app.use('/videos',  express.static(path.join(__dirname, 'videos')));
 
 // Public homepage
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// Admin panel
-app.get('/admin', (req, res) => {
-  res.sendFile(path.join(__dirname, 'admin.html'));
-});
+
 
 // ============================================================
 // START
 // ============================================================
 app.listen(PORT, () => {
   console.log(`\n✂  LM Coupes server running on http://localhost:${PORT}`);
-  console.log(`   Admin panel : http://localhost:${PORT}/admin`);
   console.log(`   GCal setup  : http://localhost:${PORT}/setup-gcal\n`);
 });
