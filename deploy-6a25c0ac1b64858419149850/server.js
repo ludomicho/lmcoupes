@@ -109,19 +109,20 @@ app.get('/api/available-days', (req, res) => {
 });
 
 /**
- * GET /api/slots?date=YYYY-MM-DD&duration=30&service=Coupe+Barbe
+ * GET /api/slots?date=YYYY-MM-DD&duration=30&service=Coupe+Barbe&barber=ludo
  * Returns available time slots for a given date and service duration.
  * For "Coupe + Barbe" (doubleSlot=true): only returns slots where BOTH
  * the slot AND the immediately following 30-min slot are free.
  */
 app.get('/api/slots', async (req, res) => {
-  const { date, duration, service } = req.query;
+  const { date, duration, service, barber } = req.query;
 
   if (!date || !duration) {
     return res.status(400).json({ error: 'Paramètres manquants: date et duration sont requis.' });
   }
 
   const durationMin  = parseInt(duration, 10);
+  const barberId     = barber || 'ludo'; // default barber
   const doubleSlot   = (service === 'Coupe + Barbe'); // needs two consecutive 30-min slots
   const slotDuration = doubleSlot ? 30 : durationMin; // always generate 30-min grid
 
@@ -148,8 +149,8 @@ app.get('/api/slots', async (req, res) => {
     // 3. Generate all 30-min slots for the day
     let allSlots = generateSlots(avail.start_time, avail.end_time, 30);
 
-    // 4. Build a Set of busy slot times (from DB bookings)
-    const existingBookings = db.prepare('SELECT time, duration FROM bookings WHERE date = ?').all(date);
+    // 4. Build a Set of busy slot times (from DB bookings for this barber)
+    const existingBookings = db.prepare('SELECT time, duration FROM bookings WHERE date = ? AND barber_id = ?').all(date, barberId);
     const isSlotBusyInDb = (slotTime) => {
       const slotStart = timeToMinutes(slotTime);
       const slotEnd   = slotStart + 30;
@@ -160,10 +161,10 @@ app.get('/api/slots', async (req, res) => {
       });
     };
 
-    // 5. Optionally fetch GCal busy periods
+    // 5. Optionally fetch GCal busy periods for this barber
     let busyPeriods = [];
     try {
-      busyPeriods = await getFreeBusySlots(date);
+      busyPeriods = await getFreeBusySlots(date, barberId);
     } catch (gcalErr) {
       console.log('[/api/slots] GCal freebusy skipped:', gcalErr.message);
     }
@@ -212,14 +213,16 @@ app.get('/api/slots', async (req, res) => {
  * Create a new booking.
  */
 app.post('/api/book', async (req, res) => {
-  const { service, price, duration, date, time, firstName, lastName, email, phone, note } = req.body;
+  const { barber, service, price, duration, date, time, firstName, lastName, email, phone, note } = req.body;
 
-  console.log('[/api/book] received:', { service, price, priceType: typeof price, duration, date, time, firstName, lastName, email, phone });
+  console.log('[/api/book] received:', { barber, service, price, priceType: typeof price, duration, date, time, firstName, lastName, email, phone });
 
   // Validation
-  if (!service || price == null || !duration || !date || !time || !firstName || !lastName || !email || !phone) {
+  if (!barber || !service || price == null || !duration || !date || !time || !firstName || !lastName || !email || !phone) {
     return res.status(400).json({ error: 'Tous les champs obligatoires doivent être remplis.' });
   }
+
+  const barberId = barber || 'ludo'; // default barber
 
   const parsedPrice = parseFloat(price);
   if (isNaN(parsedPrice) || parsedPrice <= 0) {
@@ -261,8 +264,8 @@ app.post('/api/book', async (req, res) => {
       return res.status(409).json({ error: 'Le salon est fermé ce jour.' });
     }
 
-    // Check for overlap with existing bookings
-    const existingBookings = db.prepare('SELECT time, duration FROM bookings WHERE date = ?').all(date);
+    // Check for overlap with existing bookings for this barber
+    const existingBookings = db.prepare('SELECT time, duration FROM bookings WHERE date = ? AND barber_id = ?').all(date, barberId);
     const newStart = timeToMinutes(time);
     const newEnd   = newStart + durationMin;
 
@@ -277,7 +280,7 @@ app.post('/api/book', async (req, res) => {
     }
 
     // For Coupe + Barbe: duration is always 30 min per slot, book two consecutive slots
-    const doubleSlot   = (service === 'Coupe + Barbe');
+    const doubleSlot   = (service === 'Coupe + Barbe' || service === 'Haircut + Beard');
     const slotDuration = doubleSlot ? 30 : durationMin;
 
     // If double-slot: verify the next 30-min slot is also still free (race-condition check)
@@ -297,19 +300,19 @@ app.post('/api/book', async (req, res) => {
     }
 
     const insert = db.prepare(`
-      INSERT INTO bookings (service, price, duration, date, time, first_name, last_name, email, phone, note)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      INSERT INTO bookings (barber_id, service, price, duration, date, time, first_name, last_name, email, phone, note)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `);
 
     // Insert first (or only) slot
-    const result    = insert.run(service, parsedPrice, slotDuration, date, time, firstName, lastName, email, phone, note || '');
+    const result    = insert.run(barberId, service, parsedPrice, slotDuration, date, time, firstName, lastName, email, phone, note || '');
     const bookingId = result.lastInsertRowid;
 
     // Insert second slot for Coupe + Barbe
     let bookingId2 = null;
     if (doubleSlot) {
       const time2 = minutesToTime(timeToMinutes(time) + 30);
-      const result2 = insert.run(service, parsedPrice, slotDuration, date, time2, firstName, lastName, email, phone, note || '');
+      const result2 = insert.run(barberId, service, parsedPrice, slotDuration, date, time2, firstName, lastName, email, phone, note || '');
       bookingId2 = result2.lastInsertRowid;
     }
 
@@ -317,6 +320,7 @@ app.post('/api/book', async (req, res) => {
     let googleEventId = null;
     try {
       googleEventId = await createCalendarEvent({
+        barberId,
         service, date, time,
         duration: doubleSlot ? 60 : durationMin, // single 60-min event in GCal for Coupe + Barbe
         firstName, lastName, email, phone, note: note || '',

@@ -34,14 +34,37 @@ function getAuthClient() {
 }
 
 /**
+ * Get the calendar ID for a barber from the database.
+ * If barberId is not provided, returns the primary calendar ID.
+ */
+function getBarberCalendarId(barberId) {
+  if (!barberId || barberId === 'default') {
+    return process.env.GOOGLE_CALENDAR_ID || 'primary';
+  }
+
+  try {
+    const { getDb } = require('./db');
+    const db = getDb();
+    const barber = db.prepare('SELECT calendar_id FROM barbers WHERE id = ?').get(barberId);
+    if (barber) {
+      return barber.calendar_id;
+    }
+  } catch (err) {
+    console.error('[getBarberCalendarId] Error:', err);
+  }
+
+  return process.env.GOOGLE_CALENDAR_ID || 'primary';
+}
+
+/**
  * Create a Google Calendar event for a booking.
  * Returns the created event ID.
  */
-async function createCalendarEvent({ service, date, time, duration, firstName, lastName, email, phone, note }) {
+async function createCalendarEvent({ barberId, service, date, time, duration, firstName, lastName, email, phone, note }) {
   const auth = getAuthClient();
   const calendar = google.calendar({ version: 'v3', auth });
 
-  const calendarId = process.env.GOOGLE_CALENDAR_ID || 'primary';
+  const calendarId = getBarberCalendarId(barberId);
 
   // Parse date+time in the configured timezone
   const [hour, minute] = time.split(':').map(Number);
@@ -116,13 +139,13 @@ async function deleteCalendarEvent(eventId) {
 }
 
 /**
- * Query the FreeBusy API for a given date.
+ * Query the FreeBusy API for a given date and barber.
  * Returns an array of busy periods: [{ start: ISO string, end: ISO string }, ...]
  */
-async function getFreeBusySlots(date) {
+async function getFreeBusySlots(date, barberId) {
   const auth = getAuthClient();
   const calendar = google.calendar({ version: 'v3', auth });
-  const calendarId = process.env.GOOGLE_CALENDAR_ID || 'primary';
+  const calendarId = getBarberCalendarId(barberId);
 
   // Build time range for the full day in the configured timezone
   const dayStart = DateTime.fromISO(`${date}T00:00:00`, { zone: TIMEZONE });

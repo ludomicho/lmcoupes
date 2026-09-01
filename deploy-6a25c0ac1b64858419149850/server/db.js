@@ -20,8 +20,16 @@ function getDb() {
 
 function initSchema() {
   db.exec(`
+    CREATE TABLE IF NOT EXISTS barbers (
+      id         TEXT PRIMARY KEY,
+      name       TEXT NOT NULL,
+      email      TEXT NOT NULL,
+      calendar_id TEXT NOT NULL UNIQUE
+    );
+
     CREATE TABLE IF NOT EXISTS bookings (
       id              INTEGER PRIMARY KEY AUTOINCREMENT,
+      barber_id       TEXT    NOT NULL DEFAULT 'ludo',
       service         TEXT    NOT NULL,
       price           REAL    NOT NULL,
       duration        INTEGER NOT NULL,
@@ -59,6 +67,14 @@ function initSchema() {
     );
 
   `);
+
+  // Seed barbers
+  const seedBarber = db.prepare(`
+    INSERT OR IGNORE INTO barbers (id, name, email, calendar_id)
+    VALUES (?, ?, ?, ?)
+  `);
+  seedBarber.run('ludo', 'Ludo', 'ludo@lmcoupes.com', process.env.LUDO_CALENDAR_ID || 'ludo-calendar@gmail.com');
+  seedBarber.run('tristan', 'Tristan', 'tristan@lmcoupes.com', process.env.TRISTAN_CALENDAR_ID || 'tristan-calendar@gmail.com');
 
   // Seed availability Mon–Sat open, Sunday closed
   const seed = db.prepare(`
