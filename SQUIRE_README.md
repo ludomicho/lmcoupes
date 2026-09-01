@@ -63,12 +63,12 @@ Then edit `.env`:
 ```
 GOOGLE_CLIENT_ID=your_client_id
 GOOGLE_CLIENT_SECRET=your_client_secret
-GOOGLE_REDIRECT_URI=http://localhost:3000/oauth/callback
+GOOGLE_REDIRECT_URI=http://localhost:3001/oauth/callback
 ```
 
 #### c. Authorize the App
 1. Start the server: `npm start`
-2. Visit: `http://localhost:3000/setup-gcal`
+2. Visit: `http://localhost:3001/setup-gcal`
 3. Follow the OAuth prompt to authorize
 4. The refresh token will be stored in `.env`
 
@@ -120,7 +120,7 @@ Replace `YOUR_LUDO_CALENDAR_URL_HERE` and `YOUR_TRISTAN_CALENDAR_URL_HERE` with 
 ## Usage
 
 ### Book an Appointment
-1. Visit `http://localhost:3000/squire.html`
+1. Visit `http://localhost:3001/squire.html`
 2. Select a barber (Ludo or Tristan)
 3. Choose a service (Haircut, Beard, or both)
 4. Pick a date and available time slot
@@ -238,7 +238,7 @@ const CALENDAR_URLS = {
 
 Replace the URLs with your actual Google Calendar appointment scheduling links. Keep the `?gv=true` parameter at the end.
 
-**Save and refresh** `http://localhost:3000/squire.html` - now customers can use the "📅 Google Calendar" tab!
+**Save and refresh** `http://localhost:3001/squire.html` - now customers can use the "📅 Google Calendar" tab!
 
 ## Git Branching
 

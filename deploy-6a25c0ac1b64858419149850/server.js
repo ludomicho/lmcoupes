@@ -16,7 +16,7 @@ const { sendConfirmationEmail } = require('./server/email');
 const { google }              = require('googleapis');
 
 const app  = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 const TIMEZONE = process.env.TIMEZONE || 'America/Toronto';
 
 // ============================================================
