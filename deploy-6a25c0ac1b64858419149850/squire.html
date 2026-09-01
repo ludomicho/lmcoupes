@@ -417,6 +417,31 @@
       text-align: center;
     }
 
+    /* ===== TAB BUTTONS ===== */
+    .tab-btn {
+      padding: 12px 20px;
+      border: 2px solid #e0e0e0;
+      background: white;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      color: #666;
+    }
+
+    .tab-btn:hover {
+      border-color: #0064c8;
+      color: #0064c8;
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(135deg, #ff0033 0%, #0064c8 100%);
+      border-color: #0064c8;
+      color: white;
+      box-shadow: 0 4px 12px rgba(0, 100, 200, 0.3);
+    }
+
     /* ===== RESPONSIVE ===== */
     @media (max-width: 600px) {
       .card {
@@ -468,8 +493,20 @@
       ✗ Something went wrong. Please try again.
     </div>
 
+    <!-- BOOKING METHOD TABS -->
+    <div class="card" style="padding: 20px; margin-bottom: 30px;">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+        <button class="tab-btn active" data-tab="custom" onclick="switchTab('custom')">
+          ✂ Custom Booking
+        </button>
+        <button class="tab-btn" data-tab="calendar" onclick="switchTab('calendar')">
+          📅 Google Calendar
+        </button>
+      </div>
+    </div>
+
     <!-- MAIN BOOKING CARD -->
-    <div class="card">
+    <div class="card" id="customBookingTab">
       <!-- STEP 1: SELECT BARBER -->
       <div class="section-title">Choose Your Barber</div>
       <div class="barber-grid" id="barberGrid">
@@ -531,9 +568,35 @@
         <button type="submit" class="btn-primary" id="submitBtn">Confirm Booking</button>
       </form>
     </div>
+
+    <!-- GOOGLE CALENDAR BOOKING -->
+    <div class="card" id="calendarBookingTab" style="display: none; padding: 0; overflow: hidden;">
+      <div style="padding: 30px; border-bottom: 2px solid #e0e0e0;">
+        <div class="section-title">Book via Google Calendar</div>
+        <p style="color: #666; margin-bottom: 20px;">Select your preferred barber below and book directly through Google Calendar.</p>
+      </div>
+      
+      <!-- Ludo's Calendar -->
+      <div style="padding: 30px; border-bottom: 2px solid #f0f0f0;">
+        <h3 style="margin-bottom: 15px; color: #1a1a1a;">📅 Ludo's Calendar</h3>
+        <iframe id="ludoCalendar" src="" style="border: 0; border-radius: 10px;" width="100%" height="600" frameborder="0"></iframe>
+      </div>
+
+      <!-- Tristan's Calendar -->
+      <div style="padding: 30px;">
+        <h3 style="margin-bottom: 15px; color: #1a1a1a;">📅 Tristan's Calendar</h3>
+        <iframe id="tristanCalendar" src="" style="border: 0; border-radius: 10px;" width="100%" height="600" frameborder="0"></iframe>
+      </div>
+    </div>
   </div>
 
   <script>
+    // ===== GOOGLE CALENDAR EMBED URLs =====
+    // Replace these with your actual Google Calendar appointment scheduling URLs
+    const CALENDAR_URLS = {
+      ludo: 'https://calendar.google.com/calendar/appointments/schedules/AcZssZ1p-RS_2vx3m-uyvHa5h5xMTfGJMKY_gPMlpTqRV0QfWwC0uXq3legsvn08OKJsC4fGeMxx-Ovj?gv=true',
+      tristan: 'https://calendar.google.com/calendar/appointments/schedules/YOUR_TRISTAN_CALENDAR_URL_HERE?gv=true'
+    };
     // ===== CONFIG =====
     const BARBERS = [
       { id: 'ludo', name: 'Ludo', avatar: 'L', calendarId: 'ludo@example.com' },
@@ -558,6 +621,39 @@
       renderServices();
       setupDatePicker();
       setupForm();
+      initializeCalendarEmbeds();
+    }
+
+    function switchTab(tab) {
+      // Update buttons
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.tab === tab);
+      });
+
+      // Update content
+      const customTab = document.getElementById('customBookingTab');
+      const calendarTab = document.getElementById('calendarBookingTab');
+
+      if (tab === 'custom') {
+        customTab.style.display = 'block';
+        calendarTab.style.display = 'none';
+      } else {
+        customTab.style.display = 'none';
+        calendarTab.style.display = 'block';
+      }
+    }
+
+    function initializeCalendarEmbeds() {
+      // Set the iframe sources with calendar URLs
+      const ludoFrame = document.getElementById('ludoCalendar');
+      const tristanFrame = document.getElementById('tristanCalendar');
+
+      if (ludoFrame) {
+        ludoFrame.src = CALENDAR_URLS.ludo;
+      }
+      if (tristanFrame) {
+        tristanFrame.src = CALENDAR_URLS.tristan;
+      }
     }
 
     function renderBarbers() {
