@@ -10,6 +10,32 @@ A modern barbershop booking application with Google Calendar integration, built 
 📧 **Automatic Confirmations** - Email confirmations sent to clients  
 🎨 **Modern UI** - Red-to-blue gradient Squire-style design  
 📱 **Responsive** - Works on desktop and mobile  
+🗓️ **Dual Booking Methods** - Custom form OR direct Google Calendar (Calendly-style)  
+
+## Booking Methods
+
+The Squire app offers **two booking options** for customers:
+
+### 1️⃣ Custom Booking Form (Recommended)
+Users select:
+- **Barber** (Ludo or Tristan)
+- **Service** (Haircut, Beard, or both)
+- **Date & Time** (real-time availability from Google Calendar)
+- **Contact info** (name, email, phone)
+
+**Benefits:**
+- ✅ Integrated Google Calendar sync (automatic)
+- ✅ Email confirmations sent to client
+- ✅ Full validation & error handling
+- ✅ Professional modern UI
+
+### 2️⃣ Google Calendar Scheduling (Calendly-style Alternative)
+Embedded Google Calendar appointment scheduling - switch to the "📅 Google Calendar" tab to book directly in the calendar interface.
+
+**Benefits:**
+- ✅ Familiar Google Calendar experience
+- ✅ No form to fill out
+- ✅ Direct integration with barber calendars
 
 ## Setup & Configuration
 
@@ -54,19 +80,42 @@ LUDO_CALENDAR_ID=ludo@gmail.com
 TRISTAN_CALENDAR_ID=tristan@gmail.com
 ```
 
-## Running the App
+## Booking Methods
 
-### Development
-```bash
-npm run dev
+The Squire app offers **two booking options**:
+
+### 1️⃣ Custom Booking Form
+Users fill out a form with:
+- Select barber (Ludo/Tristan)
+- Choose service
+- Pick date & time
+- Enter contact info
+
+✅ Automated Google Calendar integration  
+✅ Email confirmations sent  
+✅ Full validation  
+
+### 2️⃣ Google Calendar Scheduling (Calendly-style)
+Embedded Google Calendar appointment scheduling - customers book directly in calendar.
+
+**To set up Google Calendar scheduling:**
+
+1. Go to [Google Calendar](https://calendar.google.com)
+2. For each barber (Ludo & Tristan):
+   - Go to **Settings** → **Scheduling**
+   - Create a new **Appointment Schedule**
+   - Configure available time slots
+   - Get the public sharing link
+
+3. Update the calendar URLs in `squire.html`:
+```javascript
+const CALENDAR_URLS = {
+  ludo: 'YOUR_LUDO_CALENDAR_URL_HERE?gv=true',
+  tristan: 'YOUR_TRISTAN_CALENDAR_URL_HERE?gv=true'
+};
 ```
 
-### Production
-```bash
-npm start
-```
-
-Server will run on `http://localhost:3000`
+Replace `YOUR_LUDO_CALENDAR_URL_HERE` and `YOUR_TRISTAN_CALENDAR_URL_HERE` with the actual links from Google Calendar.
 
 ## Usage
 
@@ -159,6 +208,37 @@ const SERVICES = [
 
 ### Change Hours of Operation
 Edit `server.js` or update the `availability` table in the database.
+
+## Setting Up Google Calendar Appointment Scheduling
+
+To use the alternative "📅 Google Calendar" booking tab (Calendly-style):
+
+### For Each Barber (Ludo & Tristan):
+
+1. **Go to Google Calendar** → **Settings** (⚙️) → **Scheduling**
+2. **Create a new Appointment Schedule:**
+   - Set title: "Ludo - LM Coupes" (or "Tristan - LM Coupes")
+   - Add available time slots (e.g., 9 AM - 7 PM, Mon-Sat)
+   - Configure duration options
+   - Set up confirmation email settings
+3. **Get the public link:**
+   - Click "Publish" or copy the sharing link
+   - Link will look like: `https://calendar.google.com/calendar/appointments/schedules/AcZssZ1p-RS_2vx3m...`
+
+### Update squire.html
+
+Edit `deploy-6a25c0ac1b64858419149850/squire.html` and find this section (around line 540):
+
+```javascript
+const CALENDAR_URLS = {
+  ludo: 'https://calendar.google.com/calendar/appointments/schedules/YOUR_LUDO_URL_HERE?gv=true',
+  tristan: 'https://calendar.google.com/calendar/appointments/schedules/YOUR_TRISTAN_URL_HERE?gv=true'
+};
+```
+
+Replace the URLs with your actual Google Calendar appointment scheduling links. Keep the `?gv=true` parameter at the end.
+
+**Save and refresh** `http://localhost:3000/squire.html` - now customers can use the "📅 Google Calendar" tab!
 
 ## Git Branching
 
