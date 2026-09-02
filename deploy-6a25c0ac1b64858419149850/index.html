@@ -6,12 +6,6 @@
   <title>LM Coupes | Barbershop at Home</title>
   <link rel="stylesheet" href="css/styles.css" />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Raleway:wght@300;400;600;700&family=Bebas+Neue&display=swap" rel="stylesheet" />
-  <style>
-    /* Hide the old booking section - users now go to /squire.html */
-    .booking-section {
-      display: none !important;
-    }
-  </style>
 </head>
 <body>
 
@@ -31,7 +25,7 @@
       <li><a href="#services" data-i18n="nav.services">Services</a></li>
       <li><a href="#about" data-i18n="nav.about">À propos</a></li>
       <li><a href="#gallery" data-i18n="nav.gallery">Galerie</a></li>
-      <li><a href="/squire.html" class="nav-cta" data-i18n="nav.book">Réserver</a></li>
+      <li><a href="#booking" class="nav-cta" data-i18n="nav.book">Réserver</a></li>
     </ul>
     <button class="lang-btn" id="langBtn" onclick="switchLang()">EN</button>
     <button class="hamburger" id="hamburger">
@@ -62,7 +56,7 @@
       </h1>
       <p class="hero-sub" data-i18n="hero.sub">Tu ne vas pas être déçu de ton expérience!</p>
       <div class="hero-actions">
-        <a href="/squire.html" class="btn-primary" data-i18n="hero.cta">Prendre Rendez-Vous</a>
+        <a href="#booking" class="btn-primary" data-i18n="hero.cta">Prendre Rendez-Vous</a>
         <a href="#services" class="btn-ghost" data-i18n="hero.ghost">Mes Services</a>
       </div>
     </div>
@@ -103,7 +97,7 @@
           <span class="price">30$</span>
           <span class="duration">30 min</span>
         </div>
-        <a href="/squire.html" class="service-book" data-i18n="s1.book">Réserver →</a>
+        <button class="service-book" onclick="openBooking('Coupe', 30, 30)" data-i18n="s1.book">Réserver →</button>
       </div>
       <div class="service-card" data-service="Coupe + Barbe" data-price="35" data-duration="60">
         <div class="service-num">02</div>
@@ -113,7 +107,7 @@
           <span class="price">35$</span>
           <span class="duration">60 min</span>
         </div>
-        <a href="/squire.html" class="service-book" data-i18n="s2.book">Réserver →</a>
+        <button class="service-book" onclick="window.open('https://calendly.com/ludovikmichaud/coupe-barbe?back=1&month=2026-03','_blank')" data-i18n="s2.book">Réserver →</button>
       </div>
       <div class="service-card" data-service="Barbe" data-price="20" data-duration="30">
         <div class="service-num">03</div>
@@ -123,7 +117,7 @@
           <span class="price">20$</span>
           <span class="duration">30 min</span>
         </div>
-        <a href="/squire.html" class="service-book" data-i18n="s3.book">Réserver →</a>
+        <button class="service-book" onclick="openBooking('Barbe', 20, 30)" data-i18n="s3.book">Réserver →</button>
       </div>
     </div>
   </section>
@@ -174,7 +168,7 @@
           <span class="stat-label" data-i18n="about.stat3">Passion</span>
         </div>
       </div>
-      <a href="/squire.html" class="btn-primary" data-i18n="about.cta">Prendre Rendez-Vous</a>
+      <a href="#booking" class="btn-primary" data-i18n="about.cta">Prendre Rendez-Vous</a>
     </div>
   </section>
 
@@ -302,30 +296,30 @@
     <div class="bk-step1" id="bkStep1">
       <p class="bk-step-label" data-i18n="book.pick">Quelle prestation aujourd'hui ?</p>
       <div class="bk-service-list">
-        <a href="/squire.html" class="bk-service-btn">
+        <button class="bk-service-btn" onclick="pickBookingService('Coupe', 30, 30)">
           <span class="bk-svc-num">01</span>
           <div class="bk-svc-info">
             <span class="bk-svc-name" data-i18n="s1.name">Coupe</span>
             <span class="bk-svc-meta">30 min · 30$</span>
           </div>
           <span class="bk-svc-arrow">→</span>
-        </a>
-        <a href="/squire.html" class="bk-service-btn">
+        </button>
+        <button class="bk-service-btn" onclick="window.open('https://calendly.com/ludovikmichaud/coupe-barbe?back=1&month=2026-03','_blank')">
           <span class="bk-svc-num">02</span>
           <div class="bk-svc-info">
             <span class="bk-svc-name" data-i18n="s2.name">Coupe + Barbe</span>
             <span class="bk-svc-meta">60 min · 35$</span>
           </div>
           <span class="bk-svc-arrow">→</span>
-        </a>
-        <a href="/squire.html" class="bk-service-btn">
+        </button>
+        <button class="bk-service-btn" onclick="pickBookingService('Barbe', 20, 30)">
           <span class="bk-svc-num">03</span>
           <div class="bk-svc-info">
             <span class="bk-svc-name" data-i18n="s3.name">Barbe seulement</span>
             <span class="bk-svc-meta">30 min · 20$</span>
           </div>
           <span class="bk-svc-arrow">→</span>
-        </a>
+        </button>
       </div>
     </div>
 
