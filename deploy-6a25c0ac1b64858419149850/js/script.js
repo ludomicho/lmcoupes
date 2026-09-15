@@ -49,12 +49,6 @@ const i18n = {
     'g3.label': 'Coupe + Barbe',
     'g4.label': 'Style Complet',
     'g5.label': 'Finition Rasoir',
-    'test.tag': '04 Témoignages',
-    'test.title': 'Ce Qu\'ils <span class="accent">Disent</span>',
-    'test1.quote': '"Honnêtement je m\'attendais à bien, mais là c\'était trop bien. Mon ex m\'a retexté le soir même."',
-    'test2.quote': '"Le combo coupe + barbe m\'a transformé. J\'avais l\'air d\'un homme adulte responsable pour la première fois."',
-    'test3.quote': '"Réservation simple, ambiance chill, résultat au top. Je reviens chaque mois même si j\'en ai pas besoin."',
-    'test4.quote': '"Le rasage à la lame droite m\'a fait flipper pendant 10 secondes. Puis j\'ai compris le génie."',
     'book.tag': '05 Réservation',
     'book.title': 'Prend Ton <span class="accent">Rendez-Vous</span>',
     'book.sub': "Si tu veux un rendez-vous à un certain moment mais je ne suis pas libre, texte moi.",
@@ -149,12 +143,6 @@ const i18n = {
     'g3.label': 'Haircut + Beard',
     'g4.label': 'Full Style',
     'g5.label': 'Razor Finish',
-    'test.tag': '04 Testimonials',
-    'test.title': 'What They <span class="accent">Say</span>',
-    'test1.quote': '"Expected good, got great. My ex texted me that same evening. Make of that what you will."',
-    'test2.quote': '"The cut + beard combo made me look like a responsible adult for the first time in my life."',
-    'test3.quote': '"Easy booking, chill vibe, perfect result. I come back monthly even when I don\'t need to."',
-    'test4.quote': '"The straight razor shave freaked me out for exactly 10 seconds. Then I understood the genius."',
     'book.tag': '05 Booking',
     'book.title': 'Book Your <span class="accent">Appointment</span>',
     'book.sub': "Simple, fast, painless. Pick your service and we'll handle the rest.",
@@ -252,7 +240,6 @@ function switchLang() {
   currentLang = currentLang === 'fr' ? 'en' : 'fr';
   applyTranslations(currentLang);
   if (state.calYear !== null) renderCalendar();
-  initTestimonials();
   // Update service name in the selected bar
   if (state.selectedService) {
     const nameEl = document.getElementById('bkSelectedName');
@@ -369,7 +356,7 @@ function closeMobileMenu() {
 // ============================================================
 function initReveal() {
   const els = document.querySelectorAll(
-    '.service-card, .about-visual, .about-text, .gallery-item, .testimonial-card, .booking-widget, .footer-top > *'
+    '.service-card, .about-visual, .about-text, .gallery-item, .booking-widget, .footer-top > *'
   );
   els.forEach(el => el.classList.add('reveal'));
 
@@ -1208,99 +1195,6 @@ function resetBooking() {
   goToStep(1);
 }
 
-// ============================================================
-// TESTIMONIALS AUTO-DUPLICATE FOR INFINITE SCROLL
-// ============================================================
-function initTestimonials() {
-  const scroll  = document.getElementById('testimonialsScroll');
-  const track   = document.getElementById('testimonialsTrack');
-  if (!track || !scroll) return;
-
-  // Mobile: let CSS snap scroll handle everything natively
-  if (window.innerWidth <= 768) {
-    track.querySelectorAll('.testimonial-card[data-clone]').forEach(c => c.remove());
-    track.style.transform = 'none';
-    return;
-  }
-
-  // Clone cards for seamless infinite loop
-  track.querySelectorAll('.testimonial-card[data-clone]').forEach(c => c.remove());
-  const cards = [...track.querySelectorAll('.testimonial-card')];
-  cards.forEach(card => {
-    const clone = card.cloneNode(true);
-    clone.setAttribute('data-clone', 'true');
-    track.appendChild(clone);
-  });
-
-  // Measure set width from the DOM directly — pixel-perfect, no rounding issues
-  // track.scrollWidth = 2 sets, so half = one loop unit
-  const setWidth = track.scrollWidth / 2;
-
-  const SPEED = 0.6;
-  let offset    = 0;
-  let paused    = false;
-  let dragging  = false;
-  let dragStartX      = 0;
-  let dragStartOffset = 0;
-  let resumeTimer     = null;
-
-  function tick() {
-    if (!paused && !dragging) {
-      offset += SPEED;
-      if (offset >= setWidth) offset -= setWidth;
-    }
-    track.style.transform = `translateX(-${offset}px)`;
-    requestAnimationFrame(tick);
-  }
-  tick();
-
-  function pauseAndResumeLater(ms = 2200) {
-    paused = true;
-    clearTimeout(resumeTimer);
-    resumeTimer = setTimeout(() => { paused = false; }, ms);
-  }
-
-  // Hover pause
-  scroll.addEventListener('mouseenter', () => { paused = true; clearTimeout(resumeTimer); });
-  scroll.addEventListener('mouseleave', () => { if (!dragging) paused = false; });
-
-  // Mouse drag
-  scroll.addEventListener('mousedown', e => {
-    dragging        = true;
-    dragStartX      = e.clientX;
-    dragStartOffset = offset;
-    scroll.classList.add('dragging');
-    paused = true;
-    clearTimeout(resumeTimer);
-  });
-  window.addEventListener('mousemove', e => {
-    if (!dragging) return;
-    const dx = dragStartX - e.clientX;
-    offset   = ((dragStartOffset + dx) % setWidth + setWidth) % setWidth;
-  });
-  window.addEventListener('mouseup', () => {
-    if (!dragging) return;
-    dragging = false;
-    scroll.classList.remove('dragging');
-    pauseAndResumeLater();
-  });
-
-  // Touch drag
-  scroll.addEventListener('touchstart', e => {
-    dragStartX      = e.touches[0].clientX;
-    dragStartOffset = offset;
-    paused = true;
-    clearTimeout(resumeTimer);
-  }, { passive: true });
-  scroll.addEventListener('touchmove', e => {
-    const dx = dragStartX - e.touches[0].clientX;
-    const w  = getSetWidth();
-    offset   = ((dragStartOffset + dx) % w + w) % w;
-  }, { passive: true });
-  scroll.addEventListener('touchend', () => {
-    pauseAndResumeLater();
-  });
-}
 
 // ============================================================
 // SMOOTH ANCHOR SCROLL
@@ -1314,177 +1208,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     }
   });
 });
-
-// ============================================================
-// REVIEW MODAL
-// ============================================================
-
-// ── Espace de rangement local pour les avis ─────────────────────────────────
-// Sert de filet de sécurité : si l'API serveur (/api/reviews) n'est pas
-// joignable (ex. site déployé en statique), les avis restent visibles
-// dans le navigateur du visiteur grâce au localStorage.
-const REVIEWS_LS_KEY = 'lm_reviews_local_v1';
-
-function getLocalReviews() {
-  try {
-    const raw = localStorage.getItem(REVIEWS_LS_KEY);
-    return raw ? JSON.parse(raw) : [];
-  } catch (e) {
-    return [];
-  }
-}
-
-function saveLocalReview(review) {
-  try {
-    const list = getLocalReviews();
-    // Évite les doublons (mêmes nom + message + étoiles)
-    const exists = list.some(r =>
-      r.name === review.name &&
-      r.message === review.message &&
-      r.stars === review.stars
-    );
-    if (!exists) {
-      list.push({ ...review, ts: Date.now() });
-      localStorage.setItem(REVIEWS_LS_KEY, JSON.stringify(list));
-    }
-  } catch (e) {
-    console.warn('localStorage indisponible :', e);
-  }
-}
-
-// Échappe le HTML pour empêcher l'injection (XSS) via les avis utilisateurs
-function escapeHtml(s) {
-  return String(s)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
-}
-
-function initReviewModal() {
-  const overlay   = document.getElementById('testModalOverlay');
-  const openBtn   = document.getElementById('testAddBtn');
-  const closeBtn  = document.getElementById('testModalClose');
-  const stars     = document.querySelectorAll('.test-star');
-  const nameInput = document.getElementById('testName');
-  const msgInput  = document.getElementById('testMessage');
-  const submitBtn = document.getElementById('testSubmit');
-  const track     = document.getElementById('testimonialsTrack');
-  if (!overlay || !track) return;
-
-  let selectedStars = 0;
-
-  // Open / close
-  openBtn.addEventListener('click', () => overlay.classList.add('open'));
-  closeBtn.addEventListener('click', closeModal);
-  overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
-
-  function closeModal() {
-    overlay.classList.remove('open');
-    selectedStars = 0;
-    stars.forEach(s => s.classList.remove('active'));
-    nameInput.value = '';
-    msgInput.value  = '';
-  }
-
-  // Star interaction
-  stars.forEach(star => {
-    star.addEventListener('mouseenter', () => {
-      const val = +star.dataset.val;
-      stars.forEach(s => s.classList.toggle('active', +s.dataset.val <= val));
-    });
-    star.addEventListener('mouseleave', () => {
-      stars.forEach(s => s.classList.toggle('active', +s.dataset.val <= selectedStars));
-    });
-    star.addEventListener('click', () => {
-      selectedStars = +star.dataset.val;
-      stars.forEach(s => s.classList.toggle('active', +s.dataset.val <= selectedStars));
-    });
-  });
-
-  // Charge les avis : essaye l'API d'abord, sinon fallback sur localStorage
-  async function loadSavedReviews() {
-    let serverList = [];
-    let serverOk   = false;
-    try {
-      const res = await fetch('/api/reviews');
-      if (res.ok) {
-        serverList = await res.json();
-        serverOk = true;
-      }
-    } catch (e) {
-      console.warn('API /api/reviews indisponible — fallback localStorage');
-    }
-
-    // Si le serveur répond, on synchronise les avis locaux non encore envoyés
-    // (ils restent en local en attendant). On affiche serveur + locaux dédupés.
-    const localList = getLocalReviews();
-    const seen = new Set();
-    const all = [];
-    [...serverList, ...localList].forEach(r => {
-      const key = `${r.stars}|${r.name}|${r.message}`;
-      if (!seen.has(key)) {
-        seen.add(key);
-        all.push(r);
-      }
-    });
-    all.forEach(r => addCardToTrack(r.stars, r.name, r.message));
-  }
-
-  function addCardToTrack(starCount, name, message) {
-    // Remove clones, add card, re-clone
-    track.querySelectorAll('.testimonial-card[data-clone]').forEach(c => c.remove());
-    const card = document.createElement('div');
-    card.className = 'testimonial-card';
-    const safeName    = escapeHtml(name);
-    const safeMessage = escapeHtml(message);
-    const filled = Math.max(0, Math.min(5, parseInt(starCount, 10) || 0));
-    card.innerHTML = `
-      <div class="stars">${'★'.repeat(filled)}${'☆'.repeat(5 - filled)}</div>
-      <p>"${safeMessage}"</p>
-      <div class="testimonial-author">${safeName}</div>`;
-    track.appendChild(card);
-    // Re-init carousel with new card
-    initTestimonials();
-  }
-
-  // Submit — essaye l'API serveur, et sauvegarde aussi en local (rangement)
-  submitBtn.addEventListener('click', async () => {
-    const name    = nameInput.value.trim();
-    const message = msgInput.value.trim();
-    if (!name || !message || selectedStars === 0) {
-      if (!selectedStars) stars[0].style.animation = 'shake 0.3s';
-      return;
-    }
-    const review = { stars: selectedStars, name, message };
-
-    let savedToServer = false;
-    try {
-      const res = await fetch('/api/reviews', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(review)
-      });
-      if (res.ok) savedToServer = true;
-    } catch (e) {
-      // Pas grave : on garde l'avis en local
-    }
-
-    // Toujours stocker en local pour que l'avis reste visible au refresh
-    // même si le backend n'est pas accessible (déploiement statique).
-    saveLocalReview(review);
-
-    addCardToTrack(review.stars, review.name, review.message);
-    closeModal();
-
-    if (!savedToServer) {
-      console.info('Avis enregistré localement (serveur non joignable).');
-    }
-  });
-
-  loadSavedReviews();
-}
 
 // ============================================================
 // ACTIVE NAV HIGHLIGHTING
@@ -1566,8 +1289,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   applyTranslations(currentLang);
   initReveal();
-  initTestimonials();
-  initReviewModal();
   initActiveNav();
   initParallax();
 

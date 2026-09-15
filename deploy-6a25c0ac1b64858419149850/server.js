@@ -451,42 +451,6 @@ app.get('/oauth/callback', async (req, res) => {
 });
 
 // ============================================================
-// ============================================================
-// REVIEWS API
-// ============================================================
-
-// GET tous les avis
-app.get('/api/reviews', (req, res) => {
-  try {
-    const db = getDb();
-    const reviews = db.prepare('SELECT stars, name, message FROM reviews ORDER BY created_at ASC').all();
-    res.json(reviews);
-  } catch (err) {
-    console.error('GET /api/reviews error:', err);
-    res.status(500).json({ error: 'Erreur serveur' });
-  }
-});
-
-// POST un nouvel avis
-app.post('/api/reviews', (req, res) => {
-  try {
-    const { stars, name, message } = req.body;
-    if (!stars || !name || !message) {
-      return res.status(400).json({ error: 'Champs manquants' });
-    }
-    const starsInt = parseInt(stars, 10);
-    if (starsInt < 1 || starsInt > 5) {
-      return res.status(400).json({ error: 'Note invalide' });
-    }
-    const db = getDb();
-    const stmt = db.prepare('INSERT INTO reviews (stars, name, message) VALUES (?, ?, ?)');
-    const result = stmt.run(starsInt, name.trim(), message.trim());
-    res.json({ id: result.lastInsertRowid, stars: starsInt, name: name.trim(), message: message.trim() });
-  } catch (err) {
-    console.error('POST /api/reviews error:', err);
-    res.status(500).json({ error: 'Erreur serveur' });
-  }
-});
 
 // ============================================================
 // STATIC FILES + PAGE ROUTES
@@ -502,6 +466,14 @@ app.use('/videos',  express.static(path.join(__dirname, 'videos')));
 // Public homepage
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+app.get('/squire.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'squire.html'));
+});
+
+app.get('/index-squire.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index-squire.html'));
 });
 
 
