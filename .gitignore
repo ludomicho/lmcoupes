@@ -1,0 +1,7 @@
+node_modules/
+.env
+data/bookings.db-shm
+data/bookings.db-wal
+sessions/
+package-lock.json
+deploy-6a25c0ac1b64858419149850/
