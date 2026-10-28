@@ -65,7 +65,7 @@ const i18n = {
     'bs1.name': 'Coupe',
     'bs1.meta': '30 min · 30$',
     'bs2.name': 'Coupe + Barbe',
-    'bs2.meta': '60 min · 35$',
+    'bs2.meta': '60 min · 40$',
     'time.am': 'Matin',
     'time.pm': 'Après-midi',
     'cal.sun': 'Dim', 'cal.mon': 'Lun', 'cal.tue': 'Mar',
@@ -94,7 +94,7 @@ const i18n = {
     'footer.bottom': '© 2026 LM Coupes · Tous droits réservés',
     'footer.made': 'Fait avec ✂ et beaucoup de café',
     'fcta': 'Réserver',
-    'ticker': '<span>COUPE 30$</span><span>✦ COUPE + BARBE 35$</span><span>BARBE 20$</span><span>✦ PLATEAU MONT-ROYAL</span><span>@LUDOMICHO</span><span>✦ +1 819-918-9678</span><span>COUPE 30$</span><span>✦ COUPE + BARBE 35$</span><span>BARBE 20$</span><span>✦ PLATEAU MONT-ROYAL</span><span>@LUDOMICHO</span><span>✦ +1 819-918-9678</span>',
+    'ticker': '<span>COUPE 30$</span><span>✦ COUPE + BARBE 40$</span><span>BARBE 20$</span><span>✦ PLATEAU MONT-ROYAL</span><span>@LUDOMICHO</span><span>✦ +1 819-918-9678</span><span>COUPE 30$</span><span>✦ COUPE + BARBE 40$</span><span>BARBE 20$</span><span>✦ PLATEAU MONT-ROYAL</span><span>@LUDOMICHO</span><span>✦ +1 819-918-9678</span>',
     'months': ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
     'locale': 'fr-CA',
     'summary.title': 'Récapitulatif de votre réservation',
@@ -159,7 +159,7 @@ const i18n = {
     'bs1.name': 'Haircut',
     'bs1.meta': '30 min · $30',
     'bs2.name': 'Haircut + Beard',
-    'bs2.meta': '60 min · $35',
+    'bs2.meta': '60 min · $40',
     'time.am': 'Morning',
     'time.pm': 'Afternoon',
     'cal.sun': 'Sun', 'cal.mon': 'Mon', 'cal.tue': 'Tue',
@@ -188,7 +188,7 @@ const i18n = {
     'footer.bottom': '© 2026 LM Coupes · All rights reserved',
     'footer.made': 'Made with ✂ and too much coffee',
     'fcta': 'Book',
-    'ticker': '<span>HAIRCUT $30</span><span>✦ HAIRCUT + BEARD $35</span><span>BEARD $20</span><span>✦ PLATEAU MONT-ROYAL</span><span>@LUDOMICHO</span><span>✦ +1 819-918-9678</span><span>HAIRCUT $30</span><span>✦ HAIRCUT + BEARD $35</span><span>BEARD $20</span><span>✦ PLATEAU MONT-ROYAL</span><span>@LUDOMICHO</span><span>✦ +1 819-918-9678</span>',
+    'ticker': '<span>HAIRCUT $30</span><span>✦ HAIRCUT + BEARD $40</span><span>BEARD $20</span><span>✦ PLATEAU MONT-ROYAL</span><span>@LUDOMICHO</span><span>✦ +1 819-918-9678</span><span>HAIRCUT $30</span><span>✦ HAIRCUT + BEARD $40</span><span>BEARD $20</span><span>✦ PLATEAU MONT-ROYAL</span><span>@LUDOMICHO</span><span>✦ +1 819-918-9678</span>',
     'months': ['January','February','March','April','May','June','July','August','September','October','November','December'],
     'locale': 'en-CA',
     'summary.title': 'Booking summary',
@@ -393,7 +393,7 @@ const SERVICE_DISPLAY = {
 };
 const SERVICE_META = {
   'Coupe':        '30 min · 30$',
-  'Coupe + Barbe':'60 min · 35$',
+  'Coupe + Barbe':'60 min · 40$',
   'Barbe':        '30 min · 20$',
 };
 
