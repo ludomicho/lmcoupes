@@ -45,7 +45,7 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 80px;
+  scroll-padding-top: 120px;
 }
 
 body {
@@ -226,11 +226,34 @@ p  { color: var(--text-2); opacity: 0.9; }
 .section-header p { max-width: 500px; margin: 0 auto; }
 
 /* ============================================================
+   ANNOUNCEMENT BANNER
+   ============================================================ */
+.announcement-banner {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1100;
+  background: linear-gradient(90deg, var(--red), var(--red-light), var(--red));
+  color: #fff;
+  text-align: center;
+  padding: 10px 16px;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  animation: bannerPulse 2s ease-in-out infinite;
+}
+.announcement-banner p { margin: 0; }
+@keyframes bannerPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.85; }
+}
+
+/* ============================================================
    NAVBAR
    ============================================================ */
 .navbar {
   position: fixed;
-  top: 0; left: 0; right: 0;
+  top: 40px; left: 0; right: 0;
   z-index: 1000;
   display: flex;
   align-items: center;
